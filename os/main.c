@@ -68,6 +68,10 @@
 /* Library includes. */
 #include "stm32f10x_it.h"
 
+
+/*user Library*/
+#include "user_usart.h"
+
 /* Task priorities. */
 #define mainQUEUE_POLL_PRIORITY				( tskIDLE_PRIORITY + 2 )
 #define mainCHECK_TASK_PRIORITY				( tskIDLE_PRIORITY + 3 )
@@ -78,16 +82,6 @@
 #define mainCOM_TEST_PRIORITY				( tskIDLE_PRIORITY + 1 )
 #define mainINTEGER_TASK_PRIORITY           ( tskIDLE_PRIORITY )
 
-/* Constants related to the LCD. */
-#define mainMAX_LINE						( 240 )
-#define mainROW_INCREMENT					( 24 )
-#define mainMAX_COLUMN						( 20 )
-#define mainCOLUMN_START					( 319 )
-#define mainCOLUMN_INCREMENT 				( 16 )
-
-/* The maximum number of message that can be waiting for display at any one
-time. */
-#define mainLCD_QUEUE_SIZE					( 3 )
 
 /* The check task uses the sprintf function so requires a little more stack. */
 #define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE + 50 )
@@ -112,12 +106,10 @@ information. */
 
 int main( void )
 {
-#ifdef DEBUG
-  debug();
-#endif
+  USART1_Config();
+	printf("stm32 setup!\n");
 	/* Start the scheduler. */
 	vTaskStartScheduler();
-
 	/* Will only get here if there was not enough heap space to create the
 	idle task. */
 	return 0;
