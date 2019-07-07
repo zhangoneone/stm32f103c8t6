@@ -1,21 +1,19 @@
 #include "user_usart.h"	
-#include "stm32f10x_gpio.h"
 #include "stdarg.h"	 	 
 #include "stdio.h"	 	 
 #include "string.h"	
 //加入以下代码,支持printf函数,而不需要选择use MicroLIB	  
-#if 1
 #pragma import(__use_no_semihosting)             
 //标准库需要的支持函数                 
 struct __FILE 
 { 
 	int handle; 
 
-}; 
+};
 
 FILE __stdout;       
 //定义_sys_exit()以避免使用半主机模式    
-_sys_exit(int x) 
+void _sys_exit(int x) 
 { 
 	x = x; 
 } 
@@ -25,22 +23,9 @@ int fputc(int ch, FILE *f)
 	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
     USART1->DR = (u8) ch;      
 	return ch;
-}
-#endif 
-
- 
- 
-//#if EN_USART1_RX   //如果使能了接收
-//串口1中断服务程序
-//注意,读取USARTx->SR能避免莫名其妙的错误   	
-//u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
-//接收状态
-//bit15，	接收完成标志
-//bit14，	接收到0x0d
-//bit13~0，	接收到的有效字节数目
-
+} 
 //串口1初始化
-void USART1_Config(void)		//初始化 配置USART1
+void USART1_Config(int boaud_rate)		//初始化 配置USART1
 {
 	GPIO_InitTypeDef     GPIO_InitStructure;   //串口端口配置结构体变量
 	USART_InitTypeDef    USART_InitStructure;  //串口参数配置结构体变量
@@ -71,7 +56,7 @@ void USART1_Config(void)		//初始化 配置USART1
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
 	
 	//第5步：配置USART1参数
-	USART_InitStructure.USART_BaudRate             = 115200;							 //波特率设置：115200
+	USART_InitStructure.USART_BaudRate             = boaud_rate;							 //波特率设置：115200
 	USART_InitStructure.USART_WordLength           = USART_WordLength_8b;			 //数据位数设置：8位
 	USART_InitStructure.USART_StopBits             = USART_StopBits_1;				 //停止位设置：1位
 	USART_InitStructure.USART_Parity               = USART_Parity_No;				 //是否奇偶校验：无
@@ -92,7 +77,7 @@ void USART1_Config(void)		//初始化 配置USART1
 }
 
 //串口2初始化
-void USART2_Config(void)   //初始化 配置USART2
+void USART2_Config(int boaud_rate)   //初始化 配置USART2
 {
 	GPIO_InitTypeDef    GPIO_InitStructure;	   //串口端口配置结构体变量
 	USART_InitTypeDef   USART_InitStructure;   //串口参数配置结构体变量
@@ -114,7 +99,7 @@ void USART2_Config(void)   //初始化 配置USART2
 	GPIO_Init(GPIOA, &GPIO_InitStructure);                    //初始化GPIOA
 	  
 	//配置USART2参数
-	USART_InitStructure.USART_BaudRate = 115200;	                    //波特率设置：115200
+	USART_InitStructure.USART_BaudRate = boaud_rate;	                    //波特率设置：115200
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	    //数据位数设置：8位
 	USART_InitStructure.USART_StopBits = USART_StopBits_1; 	        //停止位设置：1位
 	USART_InitStructure.USART_Parity = USART_Parity_No ;            //是否奇偶校验：无
@@ -134,7 +119,7 @@ void USART2_Config(void)   //初始化 配置USART2
 }
 
 //串口3初始化
-void USART3_Config(void)   //初始化 配置USART3
+void USART3_Config(int boaud_rate)   //初始化 配置USART3
 {
 	GPIO_InitTypeDef GPIO_InitStructure;	  //串口端口配置结构体变量
 	USART_InitTypeDef USART_InitStructure;	  //串口参数配置结构体变量
@@ -155,7 +140,7 @@ void USART3_Config(void)   //初始化 配置USART3
 	GPIO_Init(GPIOB, &GPIO_InitStructure);                    //初始化GPIOA
 	  
 	//配置USART3参数
-	USART_InitStructure.USART_BaudRate = 115200;	                    //波特率设置：115200
+	USART_InitStructure.USART_BaudRate = boaud_rate;	                    //波特率设置：115200
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	    //数据位数设置：8位
 	USART_InitStructure.USART_StopBits = USART_StopBits_1; 	        //停止位设置：1位
 	USART_InitStructure.USART_Parity = USART_Parity_No ;            //是否奇偶校验：无
@@ -175,7 +160,7 @@ void USART3_Config(void)   //初始化 配置USART3
 }
 
 //串口4初始化
-void UART4_Config(void)   //初始化 配置USART4
+void UART4_Config(int boaud_rate)   //初始化 配置USART4
 {
 	GPIO_InitTypeDef GPIO_InitStructure;	   //串口端口配置结构体变量
 	USART_InitTypeDef USART_InitStructure;	   //串口参数配置结构体变量
@@ -196,7 +181,7 @@ void UART4_Config(void)   //初始化 配置USART4
 	GPIO_Init(GPIOC, &GPIO_InitStructure);                    //初始化GPIOC
 	  
 	//配置UART4参数
-	USART_InitStructure.USART_BaudRate = 9600;	                    //波特率设置：9600
+	USART_InitStructure.USART_BaudRate = boaud_rate;	                    //波特率设置：9600
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	    //数据位数设置：8位
 	USART_InitStructure.USART_StopBits = USART_StopBits_1; 	        //停止位设置：1位
 	USART_InitStructure.USART_Parity = USART_Parity_No ;            //是否奇偶校验：无
@@ -216,7 +201,7 @@ void UART4_Config(void)   //初始化 配置USART4
 }
 
 //串口5初始化
-void UART5_Config(void)   //初始化 配置UART5
+void UART5_Config(int boaud_rate)   //初始化 配置UART5
 {
 	GPIO_InitTypeDef GPIO_InitStructure;		//串口端口配置结构体变量
 	USART_InitTypeDef USART_InitStructure;		//串口参数配置结构体变量
@@ -237,7 +222,7 @@ void UART5_Config(void)   //初始化 配置UART5
 	GPIO_Init(GPIOD, &GPIO_InitStructure);                    //初始化GPIOC
 	  
 	//配置UART5参数
-	USART_InitStructure.USART_BaudRate = 2400;	                    //波特率设置：2400
+	USART_InitStructure.USART_BaudRate = boaud_rate;	                    //波特率设置：2400
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;	    //数据位数设置：8位
 	USART_InitStructure.USART_StopBits = USART_StopBits_1; 	        //停止位设置：1位
 	USART_InitStructure.USART_Parity = USART_Parity_No ;            //是否奇偶校验：无
@@ -256,16 +241,82 @@ void UART5_Config(void)   //初始化 配置UART5
     USART_ClearFlag(UART5, USART_FLAG_TC);                //清串口5发送标志
 }
 
-void usart3_SendByte(unsigned char SendData)	  //用串口3发送一个字节数据
+void user_Usart_SendByte(USART_TypeDef * Usart_Num,uchar SendData)	  //用串口usart_num发送一个字节数据
 {	  
-	USART_SendData(USART3,SendData);   //用串口3发送一个字节
-	while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);  //等待串口3发送完毕
-}  
-
-void uart4_SendByte(unsigned char SendData)	  //用串口4发送一个字节数据
-{	  
-	USART_SendData(UART4,SendData);   //用串口3发送一个字节
-	while(USART_GetFlagStatus(UART4, USART_FLAG_TXE) == RESET);  //等待串口4发送完毕
+	USART_SendData(Usart_Num,SendData);   //用串口发送一个字节
+	while(USART_GetFlagStatus(Usart_Num, USART_FLAG_TXE) == RESET);  //等待串口发送完毕
 } 
+
+int user_Usart_Send(USART_TypeDef * Usart_Num,const uchar *str)	  //用串口usart_num发送一个字节数据
+{	
+	int write_counter = 0;
+	while(*str!=NULL){
+		USART_SendData(Usart_Num,*str);   //用串口发送一个字节
+		while(USART_GetFlagStatus(Usart_Num, USART_FLAG_TXE) == RESET);  //等待串口发送完毕
+		write_counter++;
+		str++;
+	}
+	return write_counter;
+}
+
+void USART1_IRQHandler(){
+	if(USART_GetITStatus(USART1, USART_IT_RXNE) == RESET){  //接收中断
+		USART_ReceiveData(USART1);//读取16bit的1字
+		USART_ClearITPendingBit(USART1,USART_IT_RXNE);//清除接收中断标志
+	}
+	
+	if(USART_GetITStatus(USART1, USART_IT_TXE) == RESET){  //发送中断,要求使能了发送中断
+		
+		USART_ClearITPendingBit(USART1,USART_IT_TXE);//清除发送中断标志
+	}
+}
+
+void USART2_IRQHandler(){
+	if(USART_GetITStatus(USART2, USART_IT_RXNE) == RESET){  //接收中断
+		
+		USART_ClearITPendingBit(USART2,USART_IT_RXNE);//清除接收中断标志
+	}
+	
+	if(USART_GetITStatus(USART2, USART_IT_TXE) == RESET){  //发送中断,要求使能了发送中断
+		
+		USART_ClearITPendingBit(USART2,USART_IT_TXE);//清除发送中断标志
+	}
+}
+void USART3_IRQHandler(){
+	if(USART_GetITStatus(USART3, USART_IT_RXNE) == RESET){  //接收中断
+		
+		USART_ClearITPendingBit(USART3,USART_IT_RXNE);//清除接收中断标志
+	}
+	
+	if(USART_GetITStatus(USART3, USART_IT_TXE) == RESET){  //发送中断,要求使能了发送中断
+		
+		USART_ClearITPendingBit(USART3,USART_IT_TXE);//清除发送中断标志
+	}
+}
+//uart4 5 的处理有些特殊，不可以这样用
+void USART4_IRQHandler(){
+	if(USART_GetITStatus(UART4, USART_IT_RXNE) == RESET){  //接收中断
+		
+		USART_ClearITPendingBit(UART4,USART_IT_RXNE);//清除接收中断标志
+	}
+	
+	if(USART_GetITStatus(UART4, USART_IT_TXE) == RESET){  //发送中断,要求使能了发送中断
+		
+		USART_ClearITPendingBit(UART4,USART_IT_TXE);//清除发送中断标志
+	}
+}
+void USART5_IRQHandler(){
+	if(USART_GetITStatus(UART5, USART_IT_RXNE) == RESET){  //接收中断
+		
+		USART_ClearITPendingBit(UART5,USART_IT_RXNE);//清除接收中断标志
+	}
+	
+	if(USART_GetITStatus(UART5, USART_IT_TXE) == RESET){  //发送中断,要求使能了发送中断
+		
+		USART_ClearITPendingBit(UART5,USART_IT_TXE);//清除发送中断标志
+	}
+}
+
+
 
 
