@@ -8,14 +8,17 @@
 #include "stm32f10x_it.h"
 /*user Library*/
 #include "user_usart.h"
+#include "user_led.h"
 
-
-void hardware_init(){
+static void hardware_init(){
 	USART1_Config(115200);
+	user_led_init();
 	printf("stm32 setup!\n");
 }
+
 int main( void ){
-	hardware_init();
-	vTaskStartScheduler();
+	hardware_init();//初始化硬件平台
+	freertos_app_add();//添加任务	
+	vTaskStartScheduler();//开始调度
 	return 0;
 }

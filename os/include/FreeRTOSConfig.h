@@ -164,8 +164,8 @@ void assert_failed( unsigned char* pcFile, unsigned long ulLine )
 //支持静态内存
 #define configSUPPORT_STATIC_ALLOCATION 0
 
-//系统所有总的堆大小 当前stm32f103c8t6 最大能设置为17KB
-#define configTOTAL_HEAP_SIZE ((size_t)(10*1024))
+//系统所有总的堆大小 注意编译之后不能让变量占用内存超过芯片sram大小
+#define configTOTAL_HEAP_SIZE ((size_t)(15*1024))
 
 //钩子函数设置 回调函数 
 //空闲钩子函数 void vApplicationIdleHook(void ) 每个空闲任务执行期都会调用
