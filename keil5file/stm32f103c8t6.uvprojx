@@ -831,6 +831,11 @@
               <FileType>1</FileType>
               <FilePath>..\bspsupport\user_led.c</FilePath>
             </File>
+            <File>
+              <FileName>user_pwr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bspsupport\user_pwr.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1074,6 +1079,16 @@
               <FileName>user_led_control.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\user_led_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_usart_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_usart_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_pwr_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_pwr_control.c</FilePath>
             </File>
           </Files>
         </Group>

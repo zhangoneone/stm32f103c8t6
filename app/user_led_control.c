@@ -9,30 +9,23 @@
 /*user Library*/
 #include "user_led.h"
 #include "user_led_control.h"
-
-/* AppTaskCreate 堆栈 */
-//static StackType_t AppTaskCreate_Stack[128];
-/* LED 堆栈 */
-//static StackType_t const OPEN_LED_Task_Stack[128];
-//static StackType_t const CLOSE_LED_Task_Stack[128];
-
- /* AppTaskCreate TCB */
-//static StaticTask_t AppTaskCreate_TCB;
-/* AppTaskCreate TCB */
-
+xTaskHandle OPEN_LED_Task_TCB;
+xTaskHandle CLOSE_LED_Task_TCB;
+//使用freertos的挂起任务api
 void open_led(){
 	while(1){
-	 user_led_on();
-	 vTaskDelay(500); /* 延时500 tick，这里是500ms */
-	 user_led_off();
-	 vTaskDelay(500); /* 延时500 tick，这里是500ms */
+		user_led_on();
+		vTaskSuspend(CLOSE_LED_Task_TCB);//开灯后挂起关灯任务
+		vTaskDelay(500); /* 延时500 tick，这里是500ms */
+		vTaskResume(CLOSE_LED_Task_TCB);//500ms后恢复关灯任务
 	}
 }
 
-
 void close_led(){
-	while(1){
-	 //user_led_off();
-	 vTaskDelay(500); /* 延时500 tick，这里是500ms */
+	 while(1){
+		user_led_off();
+		vTaskSuspend(OPEN_LED_Task_TCB);//关灯后挂起开灯任务
+		vTaskDelay(500); /* 延时500 tick，这里是500ms */
+		vTaskResume(OPEN_LED_Task_TCB);//500ms后恢复开灯任务
 	}
 }

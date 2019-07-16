@@ -13,7 +13,7 @@
 static void hardware_init(){
 	USART1_Config(115200);
 	user_led_init();
-	printf("stm32 setup!\n");
+	printf("bsp setup!\n");
 }
 
 int main( void ){
