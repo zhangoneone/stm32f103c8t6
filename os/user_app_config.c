@@ -7,6 +7,7 @@
 #include "user_led_control.h"
 #include "user_usart_control.h"
 #include "user_pwr_control.h"
+#include "user_crc_control.h"
 //添加app,创建任务						
 int freertos_app_add(){
 	xTaskCreate(	open_led,
@@ -39,5 +40,17 @@ int freertos_app_add(){
 							NULL,
 							3,
 							&PWR_MODE_SEND_MSG );
+	xTaskCreate(	crc_cal,
+							"crc_cal_task",	
+							128,
+							NULL,
+							3,
+							&CRC_CAL );
+  xTaskCreate(	crc_post_binary_sem,
+							"crc_post_binary_sem_task",	
+							128,
+							NULL,
+							3,
+							&CRC_POST_BINARY_SEM );
 	return 0;
 }
