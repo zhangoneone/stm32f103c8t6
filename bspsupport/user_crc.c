@@ -5,7 +5,9 @@
 只读和只写\
 crc生成多项式是固定的
 //crc的结果可以迭代，只要不清空，不停的迭代输入，输入结束再返回crc结果。\
-算出来的就是整个数据的结果
+算出来的就是整个数据的结果\
+stm32的CRC校验和主流的计算结果不一致，是大小端的问题\
+以及计算结果没有异或
 void user_crc_init(){
 	//打开时钟
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_CRC,ENABLE);

@@ -1,15 +1,31 @@
 //#include "user_app_config.h"
 //freertos kernel head file
+/* Scheduler includes. */
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+#include "semphr.h"
+#include "event_groups.h"
 //freertos app head file
-#include "user_led_control.h"
-#include "user_usart_control.h"
-#include "user_pwr_control.h"
-#include "user_crc_control.h"
+#include "user_app_common.h"
+int freertos_app_add();
+
+//初始化参数和内核参数，并且添加app
+int software_init(){
+	//创建事件组
+	sys_base_event_group = xEventGroupCreate();
+	//将两个事件置位
+	xEventGroupSetBits(sys_base_event_group,sys_init_ok|debug_serial_idle);
+	freertos_app_add();
+}
 //添加app,创建任务						
 int freertos_app_add(){
+	xTaskCreate(	show_sys_clock,
+							"show_sys_clock_task",	
+							128,
+							NULL,
+							3,
+							&RCC_SYS_CLOCK );
 	xTaskCreate(	open_led,
 							"open_led_task",	
 							128,

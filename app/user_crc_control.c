@@ -17,7 +17,7 @@
 X32 + X26 + X23 + X22 + X16 + X12 + X11 + X10 + X8 + X7 + X4 + X2 + X +1
 xTaskHandle CRC_CAL;//CRC计算
 xTaskHandle CRC_POST_BINARY_SEM;
-unsigned int crc_data[] = {0x31};//待求crc的数据
+unsigned int crc_data[] = {0x0};//待求crc的数据
 SemaphoreHandle_t crc_sem = NULL;
 unsigned int crc_ret = 0;
 
@@ -29,7 +29,7 @@ void crc_cal(){
 		//先尝试获取信号量,最多等待2000tick
 		if(xSemaphoreTake(crc_sem,2000) == pdTRUE ){
 			crc_ret = user_cal_crc_32(crc_data[0]);
-			printf("数据%x的CRC校验结果是:%x",crc_data[0],crc_ret);
+			printf("数据0x%x的CRC校验结果是:0x%x",crc_data[0],crc_ret);
 			vTaskDelay(1500); /* 延时1500 tick，这里是1500ms */
 		}
 	}
@@ -37,7 +37,7 @@ void crc_cal(){
 
 void crc_post_binary_sem(){
 	while(1){
-		vTaskDelay(1500); /* 延时1500 tick，这里是1500ms */
+		vTaskDelay(portMAX_DELAY); /* 延时portMAX_DELAY tick */
 		xSemaphoreGive(crc_sem);
 	}
 }

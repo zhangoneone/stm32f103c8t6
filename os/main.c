@@ -9,16 +9,17 @@
 /*user Library*/
 #include "user_usart.h"
 #include "user_led.h"
-
+#include "user_crc.h"
 static void hardware_init(){
 	USART1_Config(115200);
 	user_led_init();
-	printf("bsp setup!\n");
+	user_crc_init();
+	printf("bsp setup!");
 }
 
 int main( void ){
 	hardware_init();//初始化硬件平台
-	freertos_app_add();//添加任务	
+	software_init();//初始化os和app
 	vTaskStartScheduler();//开始调度
 	return 0;
 }

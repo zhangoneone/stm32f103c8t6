@@ -349,7 +349,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>3</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -836,6 +836,16 @@
               <FileType>1</FileType>
               <FilePath>..\bspsupport\user_pwr.c</FilePath>
             </File>
+            <File>
+              <FileName>user_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bspsupport\user_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bspsupport\user_rcc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1089,6 +1099,21 @@
               <FileName>user_pwr_control.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\user_pwr_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_crc_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_crc_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_rcc_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_rcc_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_app_common.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\app\user_app_common.h</FilePath>
             </File>
           </Files>
         </Group>
