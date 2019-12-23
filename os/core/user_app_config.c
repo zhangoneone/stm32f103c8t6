@@ -43,7 +43,7 @@ int freertos_app_add(){
 							128,
 							NULL,
 							3,
-							&USART_HEART_BEAT );
+							&USART_HEART_BEAT );					
 	xTaskCreate(	pwr_mode_switch,
 							"pwr_mode_switch_task",	
 							128,
@@ -68,5 +68,11 @@ int freertos_app_add(){
 							NULL,
 							3,
 							&CRC_POST_BINARY_SEM );
+	xTaskCreate(	flash_test,
+							"flash_size_task",	
+							128,
+							NULL,
+							3,
+							&FLASH_SIZE_TASK_PCB );		
 	return 0;
 }

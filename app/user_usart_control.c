@@ -24,17 +24,17 @@ void usart_heart_beat(){
 	/* 获取当前系统时间 */
  PreviousWakeTime = xTaskGetTickCount();
 		while(1){
+			vTaskDelayUntil(&PreviousWakeTime,TimeIncrement); /* 延时5000 tick，这里是5000ms */
 			//等待串口空闲事件
 			r_event = xEventGroupWaitBits(sys_base_event_group,//事件组句柄
 											debug_serial_idle,//等待的事件
-											pdTRUE,//true 等到后清除事件位
+											pdTRUE,//true 等到后清除事件位 false等到后不清除事件位
 											pdTRUE,//true逻辑与等待
 											portMAX_DELAY);//等待时间
-			if(r_event &(debug_serial_idle)==debug_serial_idle){
-				printf("系统已运行%lu秒\n",PreviousWakeTime/1000);
+			if(r_event &debug_serial_idle==debug_serial_idle){
+				printf("running time:%lus\n",PreviousWakeTime/1000);
 				//标志串口空闲事件
 				xEventGroupSetBits(sys_base_event_group,debug_serial_idle);
 			}
-			vTaskDelayUntil(&PreviousWakeTime,TimeIncrement); /* 延时5000 tick，这里是5000ms */
 		}
 }

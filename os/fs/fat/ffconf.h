@@ -282,10 +282,10 @@
  * \c _MIN_SS, FatFs is configured to variable sector size and the
  * \c GET_SECTOR_SIZE command must be implemented in \c disk_ioctl().
  */
-#define _MIN_SS         512
+#define _MIN_SS         1024
 #endif
 #ifndef _MAX_SS
-#define _MAX_SS         512
+#define _MAX_SS         1024
 #endif
 
 #ifndef _USE_TRIM

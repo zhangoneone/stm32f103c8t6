@@ -22,13 +22,6 @@ DRESULT disk_write (BYTE pdrv, const BYTE* buff, DWORD sector, UINT count);
 DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff);
 
 
-/* Disk Status Bits (DSTATUS) */
-
-#define STA_NOINIT		0x01	/* Drive not initialized */
-#define STA_NODISK		0x02	/* No medium in the drive */
-#define STA_PROTECT		0x04	/* Write protected */
-
-
 /* Command code for disk_ioctrl fucntion */
 
 /* Generic command (Used by FatFs) */

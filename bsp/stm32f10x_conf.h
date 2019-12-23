@@ -33,7 +33,7 @@
 /* #include "stm32f10x_dbgmcu.h" */
 /* #include "stm32f10x_dma.h" */
 /* #include "stm32f10x_exti.h" */
-/* #include "stm32f10x_flash.h" */
+   #include "../stdriver/stm32f10x_flash.h"
 /* #include "stm32f10x_fsmc.h" */
    #include "../stdriver/stm32f10x_gpio.h"
 /* #include "stm32f10x_i2c.h"*/
@@ -47,7 +47,7 @@
    #include "../stdriver/stm32f10x_usart.h" 
 /* #include "stm32f10x_wwdg.h" */
    #include "../stdriver/misc.h" /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
-
+#define _FLASH_PROG
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Uncomment the line below to expanse the "assert_param" macro in the 

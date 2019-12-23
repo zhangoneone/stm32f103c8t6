@@ -10,7 +10,7 @@
 #include "user_pwr_control.h"
 #include "user_crc_control.h"
 #include "user_rcc_control.h"
-
+#include "user_flash_control.h"
 
 
 #endif

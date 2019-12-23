@@ -13,16 +13,16 @@
       <pArmCC>5050169::V5.05 update 2 (build 169)::ARMCC</pArmCC>
       <TargetOption>
         <TargetCommonOption>
-          <Device>STM32F103CB</Device>
+          <Device>STM32F103C8</Device>
           <Vendor>STMicroelectronics</Vendor>
           <PackID>Keil.STM32F1xx_DFP.1.1.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IROM(0x08000000,0x20000) IRAM(0x20000000,0x5000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
+          <Cpu>IROM(0x08000000,0x10000) IRAM(0x20000000,0x5000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000 -FP0($$Device:STM32F103CB$Flash\STM32F10x_128.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000 -FP0($$Device:STM32F103C8$Flash\STM32F10x_128.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:STM32F103CB$Device\Include\stm32f10x.h</RegisterFile>
+          <RegisterFile>$$Device:STM32F103C8$Device\Include\stm32f10x.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -32,7 +32,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:STM32F103CB$SVD\STM32F103xx.svd</SFDFile>
+          <SFDFile>$$Device:STM32F103C8$SVD\STM32F103xx.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -126,7 +126,7 @@
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
           <Simulator>
-            <UseSimulator>0</UseSimulator>
+            <UseSimulator>1</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -138,7 +138,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
-            <UseTarget>1</UseTarget>
+            <UseTarget>0</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -150,7 +150,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>8</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -164,7 +164,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -177,8 +177,8 @@
             <DriverSelection>4103</DriverSelection>
           </Flash1>
           <bUseTDR>0</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -288,7 +288,7 @@
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -313,7 +313,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -352,17 +352,17 @@
             <interw>1</interw>
             <Optim>4</Optim>
             <oTime>0</oTime>
-            <SplitLS>0</SplitLS>
+            <SplitLS>1</SplitLS>
             <OneElfS>0</OneElfS>
             <Strict>0</Strict>
             <EnumInt>0</EnumInt>
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>0</wLevel>
+            <wLevel>1</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>1</uC99>
+            <uC99>0</uC99>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -392,8 +392,8 @@
           </Aads>
           <LDads>
             <umfTarg>1</umfTarg>
-            <Ropi>0</Ropi>
-            <Rwpi>0</Rwpi>
+            <Ropi>1</Ropi>
+            <Rwpi>1</Rwpi>
             <noStLib>0</noStLib>
             <RepFail>1</RepFail>
             <useFile>0</useFile>
@@ -411,22 +411,22 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>startcode</GroupName>
+          <GroupName>boot</GroupName>
           <Files>
             <File>
               <FileName>core_cm3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\startcode\core_cm3.c</FilePath>
+              <FilePath>..\boot\core_cm3.c</FilePath>
             </File>
             <File>
               <FileName>core_cm3.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\startcode\core_cm3.h</FilePath>
+              <FilePath>..\boot\core_cm3.h</FilePath>
             </File>
             <File>
               <FileName>startup_stm32f10x_hd.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\startcode\startup_stm32f10x_hd.s</FilePath>
+              <FilePath>..\boot\startup_stm32f10x_hd.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -472,7 +472,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\startcode;..\bsp</IncludePath>
+                  <IncludePath>..\boot;..\bsp</IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -779,7 +779,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\stdriver;..\startcode;..\bsp</IncludePath>
+                  <IncludePath>..\stdriver;..\boot;..\bsp</IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -911,7 +911,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\bsp;..\stdriver;..\startcode;..\os\core\include</IncludePath>
+                  <IncludePath>..\bsp;..\stdriver;..\boot;..\os\core\include</IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -1111,6 +1111,16 @@
               <FileType>1</FileType>
               <FilePath>..\os\fs\fat\diskio.c</FilePath>
             </File>
+            <File>
+              <FileName>syscall.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\os\fs\fat\option\syscall.c</FilePath>
+            </File>
+            <File>
+              <FileName>unicode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\os\fs\fat\option\unicode.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1158,7 +1168,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\os\core;..\os\core\include;..\bsp;..\stdriver</IncludePath>
+                  <IncludePath>..\os\core;..\os\core\include;..\bsp;..\stdriver;..\os\fs\fat</IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -1210,6 +1220,16 @@
               <FileName>user_app_common.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\app\user_app_common.h</FilePath>
+            </File>
+            <File>
+              <FileName>user_flash_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_flash_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_fs_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_fs_control.c</FilePath>
             </File>
           </Files>
         </Group>

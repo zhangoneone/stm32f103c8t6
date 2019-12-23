@@ -18,8 +18,8 @@
 EventGroupHandle_t sys_base_event_group;
 xTaskHandle RCC_SYS_CLOCK;//打印系统时钟线程句柄
 
-sys_base_event_t sys_init_ok = SYS_INIT_OK;//枚举
-sys_base_event_t debug_serial_idle = DEBUG_SERIAL_IDLE;//枚举
+const sys_base_event_t sys_init_ok = SYS_INIT_OK;//枚举
+const sys_base_event_t debug_serial_idle = DEBUG_SERIAL_IDLE;//枚举
 
 static unsigned int user_sys_clock = 0;
 static EventBits_t r_event;//事件返回值
@@ -38,15 +38,16 @@ void show_sys_clock(){
 		if(r_event & (sys_init_ok|debug_serial_idle) 
 										== (sys_init_ok|debug_serial_idle)){
 											
-			printf("当前系统时钟:%uMHZ",user_sys_clock/1000000);
+			printf("System Clock:%uMHZ\n",user_sys_clock/1000000);
 			//标志串口空闲事件
-			xEventGroupSetBits(sys_base_event_group,sys_init_ok|debug_serial_idle);
-											
+			xEventGroupSetBits(sys_base_event_group,sys_init_ok|debug_serial_idle);								
 			//!!!!!attention!!!!!!
 			/*上面的语句，因为缺少了sys_init_ok| 导致事件整体工作不正常。
 			使用时应该申请了多少事件，就设置多少事件，
 		  具体的原因还未知，等进一步探索之后回来再补充	*/
-
+			//freertos的等待事件操作，不是原子操作？？？即多个task等待一个事件，如果事件发生了，那么多个task\
+				都会收到通知，并且做等到事件的操作。？？？？等待求证
+			//实锤了，freertos的事件，不是用来做互斥访问的。
 			vTaskDelete(RCC_SYS_CLOCK);//任务完成，删除任务
 		}
 	}
