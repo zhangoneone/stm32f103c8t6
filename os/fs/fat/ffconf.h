@@ -47,8 +47,6 @@
 #ifndef FFCONF_H_
 #define FFCONF_H_
 
-//#include "contiki-conf.h"
-
 #define _FFCONF 68020 /**< Revision ID */
 
 /*----------------------------------------------------------------------------*/
@@ -197,12 +195,13 @@
  * the working buffer, the memory management functions, \c ff_memalloc() and
  * \c ff_memfree(), must be added to the project.
  */
-#define _USE_LFN        3
+#define _USE_LFN        0
 #endif
 #ifndef _MAX_LFN
 #define _MAX_LFN        255
 #endif
 
+//#define _LFN_UNICODE	1
 #ifndef _LFN_UNICODE
 /** This option switches the character encoding in the API
  * (\c 0: ANSI/OEM or \c 1: UTF-16).
@@ -214,6 +213,7 @@
 #define _LFN_UNICODE    0
 #endif
 
+//#define _STRF_ENCODE 3
 #ifndef _STRF_ENCODE
 /** If \c _LFN_UNICODE is set to \c 1, this option selects the character
  * encoding OF THE FILE to be read/written via the string I/O functions:
@@ -282,10 +282,10 @@
  * \c _MIN_SS, FatFs is configured to variable sector size and the
  * \c GET_SECTOR_SIZE command must be implemented in \c disk_ioctl().
  */
-#define _MIN_SS         1024
+#define _MIN_SS         512
 #endif
 #ifndef _MAX_SS
-#define _MAX_SS         1024
+#define _MAX_SS         512
 #endif
 
 #ifndef _USE_TRIM
@@ -329,7 +329,7 @@
  */
 #define _FS_TINY        0
 #endif
-
+#define _FS_EXFAT       0
 #ifndef _FS_EXFAT
 /** This option switches the support of the exFAT file system
  * (\c 0: disable or \c 1: enable).
@@ -355,13 +355,13 @@
 #define _FS_NORTC       (!RTC_CONF_INIT)
 #endif
 #ifndef _NORTC_MON
-#define _NORTC_MON      1
+#define _NORTC_MON      12
 #endif
 #ifndef _NORTC_MDAY
-#define _NORTC_MDAY     1
+#define _NORTC_MDAY     24
 #endif
 #ifndef _NORTC_YEAR
-#define _NORTC_YEAR     2016
+#define _NORTC_YEAR     2019
 #endif
 
 #ifndef _FS_LOCK

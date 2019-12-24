@@ -43,13 +43,13 @@
 DSTATUS __attribute__((__weak__))
 disk_status(BYTE pdrv)
 {
-  return ~flash_driver.status(pdrv);
+  return flash_driver.status(pdrv);
 }
 /*----------------------------------------------------------------------------*/
 DSTATUS __attribute__((__weak__))
 disk_initialize(BYTE pdrv)
 {
-  return ~flash_driver.initialize(pdrv);
+  return flash_driver.initialize(pdrv);
 }
 /*----------------------------------------------------------------------------*/
 DRESULT __attribute__((__weak__))

@@ -11,6 +11,12 @@
 #include "user_crc_control.h"
 #include "user_rcc_control.h"
 #include "user_flash_control.h"
+#include "user_fs_control.h"
+typedef enum{
+	SYS_INIT_OK = (0x01<<0),
+	FLASH_INIT_OK = (0x01<<1),
+	FS_MOUNT_OK = (0x01<<2),
+}sys_base_event_t;//Ã¶¾ÙÀàÐÍ
 
 
 #endif

@@ -21,12 +21,29 @@ sram存储器boot
 128K的flash一共有128个块，每个块有1K。这个类似与sector(扇区)
 除去下载到flash中的代码和只读数据，剩下的flash大小，就是我们可以操作的范围了
 */
+
+/*在移植fatfs的时候遇到一个问题，fatfs支持的最小sector是128，我们拥有的sector不够用
+因此，在使用fatfs时，我们使用软件逻辑，把sector扩充1倍，
+如果不使用fatfs，则不使用虚拟sector。
+因此定义下面的宏，控制sector数量。
+*/
+#define USE_FAT_FS 1
+#if USE_FAT_FS==0
 #define FLASH_START_ADDR  0x8000000 //设置flash的起始地址
 #define FLASH_SECTOR_SIZE 1024 //设置flash的扇区大小
-#define USER_START_SECTOR	40 //设置用户操作的起始扇区
-#define FLASH_SECTOR_MAX_NUMBER 64 //设置扇区数量
+#define USER_START_SECTOR	64 //设置用户操作的起始扇区,和代码长度有关
+#define FLASH_SECTOR_MAX_NUMBER (128) //设置扇区数量
 #define FLASH_SECTOR_NUMBER  (FLASH_SECTOR_MAX_NUMBER-USER_START_SECTOR) //用户可用扇区数量
-#define FLASH_BLOCK_SIZE (FLASH_SECTOR_SIZE*4) //设置1个block=4个sector
+#define FLASH_BLOCK_SIZE 2 //设置1个block=2个sector
+
+#elif USE_FAT_FS==1
+#define FLASH_START_ADDR  0x8000000 //设置flash的起始地址
+#define FLASH_SECTOR_SIZE 512 //设置flash的扇区大小
+#define USER_START_SECTOR	64 //设置用户操作的起始扇区,和代码长度有关
+#define FLASH_SECTOR_MAX_NUMBER (256) //设置扇区数量 -2是对齐相关
+#define FLASH_SECTOR_NUMBER  (FLASH_SECTOR_MAX_NUMBER-USER_START_SECTOR) //用户可用扇区数量
+#define FLASH_BLOCK_SIZE 2 //设置1个block=2个sector
+#endif
 /* Results of Disk Functions */
 typedef enum {
 	RES_OK = 0,		/* 0: Successful */
@@ -61,7 +78,6 @@ struct flash_driver{
 /*@brief:
 返回flash大小，单位：KB
 */
-unsigned short 
-flash_size(void);
+unsigned short flash_size(void);
 extern const struct flash_driver flash_driver;
 #endif

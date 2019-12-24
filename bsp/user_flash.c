@@ -23,7 +23,6 @@ DSTATUS flash_status(BYTE pdrv){
 		return RES_OK;
 }
 
-//当前的flash每页是1k大小
 DRESULT flash_read(BYTE pdrv, BYTE* buff, DWORD sector, UINT count){
 	UINT addr = FLASH_START_ADDR;
 	int i = 0;
@@ -44,6 +43,7 @@ DRESULT flash_read(BYTE pdrv, BYTE* buff, DWORD sector, UINT count){
 	return RES_OK;
 }
 
+#if USE_FAT_FS ==0 
 DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	//stm32支持半字和全字写入
 	UINT data = 0x0;
@@ -66,7 +66,7 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	//批量擦除指定扇区
 	for(;i<count;i++){
 		if(FLASH_COMPLETE != FLASH_ErasePage(addr+i*FLASH_SECTOR_SIZE)){
-			assert_param(0);
+			//assert_param(0);
 			return RES_ERROR;
 		}
 	}
@@ -76,7 +76,7 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	for(i=0;i<count;i+=4,addr += 4){
 		data = buff[i] | (buff[i+1]<<8) | (buff[i+2]<<16) | (buff[i+3]<<24); //小端存储。低地址保存低字节
 		if(FLASH_COMPLETE != FLASH_ProgramWord(addr,data)){
-			assert_param(0);
+			//assert_param(0);
 			return RES_ERROR;
 		}
 	}
@@ -85,10 +85,76 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	return RES_OK;
 }
 
-DRESULT flash_ioctl(BYTE pdrv, BYTE cmd, void* buff){
+#elif USE_FAT_FS ==1
+DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
+	//stm32支持半字和全字写入
+	BYTE swap_buff[FLASH_SECTOR_SIZE*2];//交换缓冲
+	UINT data = 0x0;
+	UINT addr = FLASH_START_ADDR;
+	UINT i =0,j=0;
+	UINT front = 0,back=0;//0代表对齐，1代表不对齐
 	//入参检查
-	if(!buff)
-		return RES_ERROR;
+	if(!buff || sector+count > FLASH_SECTOR_NUMBER)
+		return RES_PARERR;
+	//设备检查
+	if(flash_initialize(0))
+		return RES_NOTRDY;
+	//写保护检查
+	if((FLASH_GetWriteProtectionOptionByte()&FLASH_WRProt_Pages62to127) != FLASH_WRProt_Pages62to127)
+		return RES_WRPRT;
+	//地址转换
+	sector+=USER_START_SECTOR;//设置扇区偏移
+	addr += FLASH_SECTOR_SIZE*sector;
+	front = (sector&0x1)?1:0;
+	back = (sector+count-1)&0x1?0:1;
+	//解锁
+	FLASH_Unlock();
+	//处理前后对齐
+	if(front){
+		flash_read(pdrv,swap_buff,sector-1,FLASH_SECTOR_SIZE);
+	//	if(FLASH_COMPLETE != FLASH_ErasePage(addr-FLASH_SECTOR_SIZE))return RES_ERROR;
+	}
+	if(back){
+		flash_read(pdrv,swap_buff+FLASH_SECTOR_SIZE,sector+count,FLASH_SECTOR_SIZE);
+	//	if(FLASH_COMPLETE != FLASH_ErasePage(addr+FLASH_SECTOR_SIZE*(sector+count-1)))return RES_ERROR;
+	}
+	//批量擦除扇区
+	for(;i<=count;i+=2){//==是前后均不对齐的情况。因为前不对齐时，左移了擦除地址。导致后不对齐变成对齐
+		if(FLASH_COMPLETE != FLASH_ErasePage(addr+i*FLASH_SECTOR_SIZE-
+																																(front?FLASH_SECTOR_SIZE:0)))
+			return RES_ERROR;
+	}
+	//设置待写入字节数量
+	count *= FLASH_SECTOR_SIZE;
+	//重定位写入地址
+	addr-=front*FLASH_SECTOR_SIZE;
+	if(front){//补回前对齐
+		for(i=0;i<FLASH_SECTOR_SIZE;i+=4,addr+=4){
+			data = swap_buff[i] | (swap_buff[i+1]<<8) | (swap_buff[i+2]<<16) | (swap_buff[i+3]<<24); //小端存储。低地址保存低字节
+			if(FLASH_COMPLETE != FLASH_ProgramWord(addr,data))return RES_ERROR;
+		}
+	}
+	//批量写入数据
+	for(i=0;i<count;i+=4,addr += 4){
+		data = buff[i] | (buff[i+1]<<8) | (buff[i+2]<<16) | (buff[i+3]<<24); //小端存储。低地址保存低字节
+		if(FLASH_COMPLETE != FLASH_ProgramWord(addr,data))return RES_ERROR;
+	}
+	if(back){//补回后对齐
+		for(i=FLASH_SECTOR_SIZE;i<2*FLASH_SECTOR_SIZE;i+=4,addr+=4){
+			data = swap_buff[i] | (swap_buff[i+1]<<8) | (swap_buff[i+2]<<16) | (swap_buff[i+3]<<24); //小端存储。低地址保存低字节
+			if(FLASH_COMPLETE != FLASH_ProgramWord(addr,data))return RES_ERROR;
+		}
+	}
+	//上锁
+	FLASH_Lock();
+	return RES_OK;
+}
+
+
+
+
+#endif
+DRESULT flash_ioctl(BYTE pdrv, BYTE cmd, void* buff){
 	//设备检查
 	if(flash_initialize(0))
 		return RES_NOTRDY;
@@ -96,12 +162,15 @@ DRESULT flash_ioctl(BYTE pdrv, BYTE cmd, void* buff){
 	  return RES_OK;
 	}
 	else if(cmd == GET_SECTOR_COUNT){
+		if(!buff)return RES_ERROR;
 		*(UINT*)buff = FLASH_SECTOR_NUMBER;
 	}
 	else if(cmd == GET_SECTOR_SIZE){
+		if(!buff)return RES_ERROR;
 		*(UINT*)buff = FLASH_SECTOR_SIZE;
 	}
 	else if(cmd == GET_BLOCK_SIZE){
+		if(!buff)return RES_ERROR;
 		*(UINT*)buff = FLASH_BLOCK_SIZE;
 	}
 	else if(cmd == CTRL_TRIM){//通知某个范围的逻辑区块不再需要,可以擦除
@@ -111,6 +180,7 @@ DRESULT flash_ioctl(BYTE pdrv, BYTE cmd, void* buff){
 		return RES_PARERR;
 	return RES_OK;
 }
+
 /*@brief:返回flash大小，单位：KB
 */
 unsigned short flash_size(void){
