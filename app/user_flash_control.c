@@ -31,14 +31,12 @@ void flash_read_write_test(){
 }
 void flash_test(){
 	  flash_size_value = flash_size();
-		while(1){
-				while(xSemaphoreTake(serial_sem,10) != pdTRUE );
-				printf("FLASH:%uKB\n",flash_size_value);
-				xSemaphoreGive(serial_sem);
-			  //裸板flash测试
-				flash_read_write_test();
-				//任务完成，删除任务
-				vTaskDelete(FLASH_SIZE_TASK_PCB);
-			}
+		while(xSemaphoreTake(serial_sem,10) != pdTRUE );
+		printf("FLASH:%uKB\n",flash_size_value);
+		xSemaphoreGive(serial_sem);
+		//裸板flash测试
+		flash_read_write_test();
+		//任务完成，删除任务 删除自身，参数是NULL
+		vTaskDelete(NULL);
 }
 

@@ -1,87 +1,233 @@
-/*
- * Copyright (c) 2016, Benoît Thébaudeau <benoit@wsystem.com>
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- */
-/**
- * \addtogroup remote-fat
- * @{
- *
- * \file
- * Implementation of the default port of FatFs on RE-Mote.
- */
-#include "diskio.h"
-#include "user_flash.h"//fs的底层io函数
-//#include "user_rtc.h"//获取时间 尚未实现
+/*-----------------------------------------------------------------------*/
+/* Low level disk I/O module skeleton for FatFs     (C)ChaN, 2019        */
+/*-----------------------------------------------------------------------*/
+/* If a working storage control module is available, it should be        */
+/* attached to the FatFs via a glue function rather than modifying it.   */
+/* This is an example of glue functions to attach various exsisting      */
+/* storage control modules to the FatFs module with a defined API.       */
+/*-----------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------*/
-DSTATUS __attribute__((__weak__))
-disk_status(BYTE pdrv)
-{
-  return flash_driver.status(pdrv);
-}
-/*----------------------------------------------------------------------------*/
-DSTATUS __attribute__((__weak__))
-disk_initialize(BYTE pdrv)
-{
-  return flash_driver.initialize(pdrv);
-}
-/*----------------------------------------------------------------------------*/
-DRESULT __attribute__((__weak__))
-disk_read(BYTE pdrv, BYTE *buff, DWORD sector, UINT count)
-{
-  return flash_driver.read(pdrv, buff, sector, count);
-}
-/*----------------------------------------------------------------------------*/
-DRESULT __attribute__((__weak__))
-disk_write(BYTE pdrv, const BYTE *buff, DWORD sector, UINT count)
-{
-  return flash_driver.write(pdrv, buff, sector, count);
-}
-/*----------------------------------------------------------------------------*/
-DRESULT __attribute__((__weak__))
-disk_ioctl(BYTE pdrv, BYTE cmd, void *buff)
-{
-  return flash_driver.ioctl(pdrv, cmd, buff);
-}
-/*----------------------------------------------------------------------------*/
-DWORD __attribute__((__weak__))
-get_fattime(void)
-{
-  /*
-	simple_td_map td;
+#include "ff.h"			/* Obtains integer types */
+#include "diskio.h"		/* Declarations of disk functions */
+#define MMC_disk_status() flash_driver.status(0)
+#define MMC_disk_initialize() flash_driver.initialize(0)
+#define MMC_disk_read(buff,sector,count) flash_driver.read(0,buff,sector,count)
+#define MMC_disk_write(buff,sector,count) flash_driver.write(0,buff,sector,count)
+#define MMC_disk_ioctl(pdrv,cmd,buff) flash_driver.ioctl(0,cmd,buff)
+/* Definitions of physical drive number for each drive */
+#define DEV_RAM		0	/* Example: Map Ramdisk to physical drive 0 */
+#define DEV_MMC		1	/* Example: Map MMC/SD card to physical drive 1 */
+#define DEV_USB		2	/* Example: Map USB MSD to physical drive 2 */
 
-  return rtcc_get_time_date(&td) == AB08_SUCCESS ?
-    (2000 + td.years - 1980) << 25 | td.months << 21 | td.day << 16 |
-    td.hours << 11 | td.minutes << 5 | td.seconds : 0;
-*/
-	return 0;
-}
-/*----------------------------------------------------------------------------*/
 
-/** @} */
+/*-----------------------------------------------------------------------*/
+/* Get Drive Status                                                      */
+/*-----------------------------------------------------------------------*/
+
+DSTATUS disk_status (
+	BYTE pdrv		/* Physical drive nmuber to identify the drive */
+)
+{
+	DSTATUS stat;
+	int result;
+
+	switch (pdrv) {
+	case DEV_RAM :
+		//result = RAM_disk_status();
+
+		// translate the reslut code here
+
+		return stat;
+
+	case DEV_MMC :
+		result = MMC_disk_status();
+
+		// translate the reslut code here
+		stat = result;
+		return stat;
+
+	case DEV_USB :
+		//result = USB_disk_status();
+
+		// translate the reslut code here
+
+		return stat;
+	}
+	return STA_NOINIT;
+}
+
+
+
+/*-----------------------------------------------------------------------*/
+/* Inidialize a Drive                                                    */
+/*-----------------------------------------------------------------------*/
+
+DSTATUS disk_initialize (
+	BYTE pdrv				/* Physical drive nmuber to identify the drive */
+)
+{
+	DSTATUS stat;
+	int result;
+
+	switch (pdrv) {
+	case DEV_RAM :
+		//result = RAM_disk_initialize();
+
+		// translate the reslut code here
+
+		return stat;
+
+	case DEV_MMC :
+		result = MMC_disk_initialize();
+
+		// translate the reslut code here
+		stat = result;
+		return stat;
+
+	case DEV_USB :
+		//result = USB_disk_initialize();
+
+		// translate the reslut code here
+
+		return stat;
+	}
+	return STA_NOINIT;
+}
+
+
+
+/*-----------------------------------------------------------------------*/
+/* Read Sector(s)                                                        */
+/*-----------------------------------------------------------------------*/
+
+DRESULT disk_read (
+	BYTE pdrv,		/* Physical drive nmuber to identify the drive */
+	BYTE *buff,		/* Data buffer to store read data */
+	LBA_t sector,	/* Start sector in LBA */
+	UINT count		/* Number of sectors to read */
+)
+{
+	DRESULT res;
+	int result;
+
+	switch (pdrv) {
+	case DEV_RAM :
+		// translate the arguments here
+
+		//result = RAM_disk_read(buff, sector, count);
+
+		// translate the reslut code here
+
+		return res;
+
+	case DEV_MMC :
+		// translate the arguments here
+
+		result = MMC_disk_read(buff,sector,count);
+		
+		// translate the reslut code here
+		res = result;
+		return res;
+
+	case DEV_USB :
+		// translate the arguments here
+
+		//result = USB_disk_read(buff, sector, count);
+
+		// translate the reslut code here
+
+		return res;
+	}
+
+	return RES_PARERR;
+}
+
+
+
+/*-----------------------------------------------------------------------*/
+/* Write Sector(s)                                                       */
+/*-----------------------------------------------------------------------*/
+
+#if FF_FS_READONLY == 0
+
+DRESULT disk_write (
+	BYTE pdrv,			/* Physical drive nmuber to identify the drive */
+	const BYTE *buff,	/* Data to be written */
+	LBA_t sector,		/* Start sector in LBA */
+	UINT count			/* Number of sectors to write */
+)
+{
+	DRESULT res;
+	int result;
+
+	switch (pdrv) {
+	case DEV_RAM :
+		// translate the arguments here
+
+		//result = RAM_disk_write(buff, sector, count);
+
+		// translate the reslut code here
+		
+		return res;
+
+	case DEV_MMC :
+		// translate the arguments here
+
+		result = MMC_disk_write(buff, sector, count);
+
+		// translate the reslut code here
+		res = result;
+		return res;
+
+	case DEV_USB :
+		// translate the arguments here
+
+		//result = USB_disk_write(buff, sector, count);
+
+		// translate the reslut code here
+
+		return res;
+	}
+
+	return RES_PARERR;
+}
+
+#endif
+
+
+/*-----------------------------------------------------------------------*/
+/* Miscellaneous Functions                                               */
+/*-----------------------------------------------------------------------*/
+
+DRESULT disk_ioctl (
+	BYTE pdrv,		/* Physical drive nmuber (0..) */
+	BYTE cmd,		/* Control code */
+	void *buff		/* Buffer to send/receive control data */
+)
+{
+	DRESULT res;
+	int result;
+
+	switch (pdrv) {
+	case DEV_RAM :
+
+		// Process of the command for the RAM drive
+
+		return res;
+
+	case DEV_MMC :
+
+		// Process of the command for the MMC/SD card
+		res = result = MMC_disk_ioctl(pdrv,cmd,buff);
+		return res;
+
+	case DEV_USB :
+
+		// Process of the command the USB drive
+
+		return res;
+	}
+
+	return RES_PARERR;
+}
+

@@ -84,7 +84,7 @@ int freertos_app_add(){
 							&FLASH_SIZE_TASK_PCB );		
 	xTaskCreate(fs_test,
 							"fs_test_task",	
-							128,
+							256,
 							NULL,
 							3,
 							&FS_TEST_TASK_PCB );

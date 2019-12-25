@@ -111,11 +111,11 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	FLASH_Unlock();
 	//处理前后对齐
 	if(front){
-		flash_read(pdrv,swap_buff,sector-1,FLASH_SECTOR_SIZE);
+		flash_read(pdrv,swap_buff,sector-1,1);
 	//	if(FLASH_COMPLETE != FLASH_ErasePage(addr-FLASH_SECTOR_SIZE))return RES_ERROR;
 	}
 	if(back){
-		flash_read(pdrv,swap_buff+FLASH_SECTOR_SIZE,sector+count,FLASH_SECTOR_SIZE);
+		flash_read(pdrv,swap_buff+FLASH_SECTOR_SIZE,sector+count,1);
 	//	if(FLASH_COMPLETE != FLASH_ErasePage(addr+FLASH_SECTOR_SIZE*(sector+count-1)))return RES_ERROR;
 	}
 	//批量擦除扇区
