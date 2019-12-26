@@ -175,7 +175,7 @@ List_t * const pxList = pxItemToRemove->pxContainer;
 
 	pxItemToRemove->pxNext->pxPrevious = pxItemToRemove->pxPrevious;
 	pxItemToRemove->pxPrevious->pxNext = pxItemToRemove->pxNext;
-
+	
 	/* Only used during decision coverage testing. */
 	mtCOVERAGE_TEST_DELAY();
 

@@ -6,6 +6,8 @@
 #include "queue.h"
 #include "semphr.h"
 #include "event_groups.h"
+#include "xprintf.h"
+#include "user_usart.h"
 //freertos app head file
 #include "user_app_common.h"
 int freertos_app_add();
@@ -13,9 +15,12 @@ int freertos_app_add();
 const sys_base_event_t sys_init_ok = SYS_INIT_OK;//枚举
 const sys_base_event_t flash_init_ok = FLASH_INIT_OK;//枚举
 const sys_base_event_t fs_mount_ok = FS_MOUNT_OK;//枚举
-
+SemaphoreHandle_t secure_print_sem = NULL;//串口空闲互斥量
 //初始化参数和内核参数，并且添加app
 int software_init(){
+	//设置io流载体
+	xdev_out(usart1_obj.u_putc);
+	xdev_in(usart1_obj.u_getc);
 	//创建事件组
 	sys_base_event_group = xEventGroupCreate();
 	//将事件置位
@@ -24,6 +29,9 @@ int software_init(){
 	serial_sem = xSemaphoreCreateBinary();
 	//post
 	xSemaphoreGive(serial_sem);
+	//串口资源互斥量初始化
+	secure_print_sem = xSemaphoreCreateBinary();
+	xSemaphoreGive(secure_print_sem);
 	freertos_app_add();
 }
 //添加app,创建任务						
@@ -84,9 +92,15 @@ int freertos_app_add(){
 							&FLASH_SIZE_TASK_PCB );		
 	xTaskCreate(fs_test,
 							"fs_test_task",	
-							256,
+							128,
 							NULL,
 							3,
 							&FS_TEST_TASK_PCB );
+	xTaskCreate(io_test,
+							"io_test_task",	
+							128,
+							NULL,
+							3,
+							&IO_TASK_PCB );
 	return 0;
 }

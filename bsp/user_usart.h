@@ -5,6 +5,19 @@ extern "C" {
 #endif
 #include "user_common.h"
 #include "stm32f10x_gpio.h"
+#include "stm32f10x.h"
+typedef struct{
+  int (*u_putc)(uchar c);
+	uchar (*u_getc)();
+	uchar* (*u_gets)(USART_TypeDef * Usart_Num);
+	int (*u_puts)(USART_TypeDef * Usart_Num,uchar *s);
+}usart_obj;
+
+#ifdef USART1
+#define USART1_TXB	128
+#define USART1_RXB	128
+extern const volatile usart_obj usart1_obj;
+#endif
 void USART1_Config(int boaud_rate);
 void USART2_Config(int boaud_rate);
 void USART3_Config(int boaud_rate);

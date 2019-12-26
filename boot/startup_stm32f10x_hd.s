@@ -163,7 +163,7 @@ NMI_Handler     PROC
 HardFault_Handler\
                 PROC
                 EXPORT  HardFault_Handler          [WEAK]
-                B       .
+                BX      LR
                 ENDP
 MemManage_Handler\
                 PROC

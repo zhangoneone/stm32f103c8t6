@@ -247,7 +247,7 @@ void user_Usart_SendByte(USART_TypeDef * Usart_Num,uchar SendData)	  //用串口usa
 	while(USART_GetFlagStatus(Usart_Num, USART_FLAG_TXE) == RESET);  //等待串口发送完毕
 } 
 
-int user_Usart_Send(USART_TypeDef * Usart_Num,const uchar *str)	  //用串口usart_num发送一个字节数据
+int user_Usart_Send(USART_TypeDef * Usart_Num,const uchar *str)	  //用串口usart_num发送字符串
 {	
 	int write_counter = 0;
 	while(*str!=NULL){
@@ -259,18 +259,91 @@ int user_Usart_Send(USART_TypeDef * Usart_Num,const uchar *str)	  //用串口usart_
 	return write_counter;
 }
 
+uchar* u_gets(USART_TypeDef * Usart_Num){
+	return 0;
+}
+int u_puts(USART_TypeDef * Usart_Num,uchar *s){
+	return 0;
+}
+
+#ifdef USART1
+
+static volatile struct{
+	uint16_t	tri, twi, tct;
+	uint16_t	rri, rwi, rct;
+	uint8_t		tbuf[USART1_TXB];
+	uint8_t		rbuf[USART1_RXB];
+} Fifo1;
+
+int u1_putc(uchar c){
+	int i;
+	/* Wait for tx fifo is not full */
+	while (Fifo1.tct >= USART1_TXB) ;
+
+	i = Fifo1.twi;		/* Put a byte into Tx fifo */
+	Fifo1.tbuf[i] = c;
+	Fifo1.twi = ++i % USART1_TXB;
+	__disable_irq();
+	Fifo1.tct++;
+	USART_ITConfig(USART1, USART_IT_TXE, ENABLE);//使能发送中断
+	__enable_irq();
+	return 0;
+}
+uchar u1_getc(){
+	uchar d;
+	int i;
+
+	/* Wait while rx fifo is empty */
+	while (!Fifo1.rct);
+
+	i = Fifo1.rri;			/* Get a byte from rx fifo */
+	d = Fifo1.rbuf[i];
+	Fifo1.rri = ++i % USART1_RXB;
+	__disable_irq();
+	Fifo1.rct--;
+	__enable_irq();
+
+	return d;
+}
+
 void USART1_IRQHandler(){
-	if(USART_GetITStatus(USART1, USART_IT_RXNE) == RESET){  //接收中断
-		USART_ReceiveData(USART1);//读取16bit的1字
+	uchar d;
+	uint i=0;
+	if(USART_GetITStatus(USART1, USART_IT_RXNE) == SET){  //接收中断
+		d = (uchar)USART_ReceiveData(USART1);//读取16bit的1字
+		i = Fifo1.rct;
+		if (i < USART1_RXB) {	/* Store it into the rx fifo if not full */
+			Fifo1.rct = ++i;
+			i = Fifo1.rwi;
+			Fifo1.rbuf[i] = d;
+			Fifo1.rwi = ++i % USART1_RXB;
+		}
 		USART_ClearITPendingBit(USART1,USART_IT_RXNE);//清除接收中断标志
 	}
 	
-	if(USART_GetITStatus(USART1, USART_IT_TXE) == RESET){  //发送中断,要求使能了发送中断
-		
-		USART_ClearITPendingBit(USART1,USART_IT_TXE);//清除发送中断标志
+	if(USART_GetITStatus(USART1, USART_IT_TXE) == SET){  //发送中断,要求使能了发送中断
+		i = Fifo1.tct;
+		if (i--) {	/* There is any data in the tx fifo */
+			Fifo1.tct = (uint16_t)i;
+			i = Fifo1.tri;
+			user_Usart_SendByte(USART1,Fifo1.tbuf[i]);
+			Fifo1.tri = ++i % USART1_TXB;
+		} else {	/* No data in the tx fifo */
+			USART_ITConfig(USART1, USART_IT_TXE, DISABLE);//失能发送中断
+			USART_ClearITPendingBit(USART1,USART_IT_TXE);//清除发送中断标志
+		}
 	}
 }
 
+const volatile usart_obj usart1_obj={
+	u1_putc,
+	u1_getc,
+	u_gets,
+	u_puts,
+};
+
+#endif
+#ifdef USART2
 void USART2_IRQHandler(){
 	if(USART_GetITStatus(USART2, USART_IT_RXNE) == RESET){  //接收中断
 		
@@ -282,6 +355,8 @@ void USART2_IRQHandler(){
 		USART_ClearITPendingBit(USART2,USART_IT_TXE);//清除发送中断标志
 	}
 }
+#endif
+#ifdef USART3
 void USART3_IRQHandler(){
 	if(USART_GetITStatus(USART3, USART_IT_RXNE) == RESET){  //接收中断
 		
@@ -293,6 +368,8 @@ void USART3_IRQHandler(){
 		USART_ClearITPendingBit(USART3,USART_IT_TXE);//清除发送中断标志
 	}
 }
+
+#endif
 //uart4 5 的处理有些特殊，不可以这样用
 void USART4_IRQHandler(){
 	if(USART_GetITStatus(UART4, USART_IT_RXNE) == RESET){  //接收中断

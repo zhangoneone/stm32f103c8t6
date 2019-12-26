@@ -15,7 +15,7 @@
 
 //使用freertos的绝对延时函数
 xTaskHandle USART_HEART_BEAT;//发送给串口的心跳信息
-SemaphoreHandle_t serial_sem = NULL;//串口空闲互斥量
+
 /* 保存上次时间，调用后系统会自动更新它*/
 static portTickType PreviousWakeTime;
 static EventBits_t r_event;//事件返回值
@@ -26,10 +26,6 @@ void usart_heart_beat(){
   PreviousWakeTime = xTaskGetTickCount();
 	while(1){
 			vTaskDelayUntil(&PreviousWakeTime,TimeIncrement); /* 延时5000 tick，这里是5000ms */
-			//wait 循环等待，每次等不到则task休眠10tick。
-			while(xSemaphoreTake(serial_sem,10) != pdTRUE );
-			printf("running time:%lus\n",PreviousWakeTime/1000);
-			//post
-			xSemaphoreGive(serial_sem);
+			xprintf_s("running time:%lus\n",PreviousWakeTime/1000);
 	}
 }

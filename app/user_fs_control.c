@@ -19,9 +19,17 @@ FATFS *fs,fatfs;//fs²Ù×÷¾ä±ú
 #define work_buff_len 	512
 void *work=NULL;
 int clust_size = 0;
-extern SemaphoreHandle_t serial_sem;
-//fatfsÎÄ¼şÏµÍ³Ê¹ÓÃ:1)mount	\
-2) mkfs	\
+xTaskHandle FS_TEST_TASK_PCB;//´òÓ¡ÏµÍ³FLASHÏß³Ì¾ä±ú
+/***attention!!!!**/
+/*****
+freertosµÄÈÎÎñ¶ÑÕ»ºÜĞ¡£¬ËùÒÔ¾¡Á¿²»ÒªÔÚÈÎÎñ¶ÑÕ»ÀïÃæ¶¨Òå½Ï´ó±äÁ¿£¬ÒÔÃâÈÎÎñ¶ÑÕ»Òç³ö£¡£¡£¡
+*********/
+FIL fp;
+char buffer[20];
+int count=0;
+
+//fatfsÎÄ¼şÏµÍ³Ê¹ÓÃ:1)mkfs	\
+2) mount	\
 3)ÎÄ¼ş²Ù×÷
 //ÎÒÃÇÏëÈÃfsÔËĞĞÇ°£¬ÏÈÍê³ÉÂã°åµÄflash²âÊÔ\
 Îª´Ë£¬ÎÒÃÇµÈµ½ÁËflash²âÊÔÍê³ÉÊÂ¼ş£¬²Å»áÖ´ĞĞfs_initµÄÏà¹Ø¹¤×÷¡
@@ -33,34 +41,20 @@ void fs_init(){
 											pdTRUE,//trueÂß¼­ÓëµÈ´ı
 											portMAX_DELAY);//µÈ´ıÊ±¼ä	
 		if(r_event & flash_init_ok == flash_init_ok){//flash²âÊÔÍê³ÉÁË
-			configASSERT((clust_size = xPortGetFreeHeapSize())>=work_buff_len);
-			printf("      %d       ",clust_size);
 			work = pvPortMalloc(work_buff_len);//fs ¸ñÊ½»¯¹ı³ÌÖĞµÄÁÙÊ±»º³åÇø
 			fs = &fatfs;
 			r_event = f_mkfs("1:", 0, work, work_buff_len);
 			configASSERT(!r_event);
-			printf("      %d       ",r_event);
 			r_event = f_mount(fs, "1:", 1);
 			configASSERT(!r_event);
 			r_event = f_getfree("1:",&clust_size,&fs);
 			configASSERT(!r_event);
-			while(xSemaphoreTake(serial_sem,10) != pdTRUE );
-			printf("fs mount success,size:%d clust\n",clust_size);
-			xSemaphoreGive(serial_sem);
+			xprintf_s("fs mount success,size:%d clust\n",clust_size);
 		}
 		//fs³õÊ¼»¯Íê³É£¬ÊÂ¼şÖÃÎ»
 		xEventGroupSetBits(sys_base_event_group,fs_mount_ok);
 }
-xTaskHandle FS_TEST_TASK_PCB;//´òÓ¡ÏµÍ³FLASHÏß³Ì¾ä±ú
 
-/***attention!!!!**/
-
-/*****
-freertosµÄÈÎÎñ¶ÑÕ»ºÜĞ¡£¬ËùÒÔ¾¡Á¿²»ÒªÔÚÈÎÎñ¶ÑÕ»ÀïÃæ¶¨Òå½Ï´ó±äÁ¿£¬ÒÔÃâÈÎÎñ¶ÑÕ»Òç³ö£¡£¡£¡
-*********/
-FIL fp;
-char buffer[20];
-int count=0;
 void fs_test(){
   	fs_init();
 	//µÈ´ıÊÂ¼ş
@@ -79,13 +73,10 @@ void fs_test(){
 			configASSERT(!r_event);
 			f_read(&fp,buffer,15,&count);
 			f_close(&fp);
-			while(xSemaphoreTake(serial_sem,10) != pdTRUE );
-			printf("read text:%s\n",buffer);
-			xSemaphoreGive(serial_sem);
+			xprintf_s("read text:%s\n",buffer);
 			vPortFree(work);
 			f_unmount("1:");
-			while(1);
-			//ÈÎÎñÍê³É£¬É¾³ıÈÎÎñ  É¾³ı×ÔÉí£¬²ÎÊıÌîNULL  ÔÚÕâÀïÉ¾³ı×Ô¼º»á³ö´í£¬ÎªÊ²Ã´£¿£¿
-			//vTaskDelete(NULL);
+			//ÈÎÎñÍê³É£¬É¾³ıÈÎÎñ  É¾³ı×ÔÉí£¬²ÎÊıÌîNULL
+			vTaskDelete(NULL);
 		}
 }

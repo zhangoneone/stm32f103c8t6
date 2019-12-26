@@ -89,9 +89,9 @@ NVIC value of 255. */
 #include <stdint.h>
 extern uint32_t SystemCoreClock;
 #endif
-
+extern void xprintf_s(const char*	fmt,...);
 //╤оят
-#define vAssertCalled(char,int) printf("Error:%s,%d\r\n",char,int)
+#define vAssertCalled(char,int) xprintf_s("Error:%s,%d\r\n",char,int)
 #define configASSERT(x) if((x)==0) vAssertCalled(__FILE__,__LINE__)
 
 //╤оят

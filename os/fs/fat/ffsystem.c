@@ -3,11 +3,13 @@
 /* (C)ChaN, 2018                                                          */
 /*------------------------------------------------------------------------*/
 //把fs的堆内存的申请和释放交给freertos处理
+#include "stdio.h"
+extern void *pvPortMalloc( size_t xWantedSize );
+extern void vPortFree( void *pv );
 #define malloc(size)	pvPortMalloc(size)
 #define free(ptr)	vPortFree(ptr)
 
 #include "ff.h"
-
 
 #if FF_USE_LFN == 3	/* Dynamic memory allocation */
 

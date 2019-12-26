@@ -27,7 +27,7 @@ DRESULT flash_read(BYTE pdrv, BYTE* buff, DWORD sector, UINT count){
 	UINT addr = FLASH_START_ADDR;
 	int i = 0;
 	//入参检查
-	if(!buff || sector+count > FLASH_SECTOR_NUMBER)
+	if(!buff || sector+count >= FLASH_SECTOR_NUMBER)
 		return RES_PARERR;
 	//设备检查
 	if(flash_initialize(0))
@@ -87,14 +87,14 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 
 #elif USE_FAT_FS ==1
 DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
-	//stm32支持半字和全字写入
 	BYTE swap_buff[FLASH_SECTOR_SIZE*2];//交换缓冲
+	//stm32支持半字和全字写入
 	UINT data = 0x0;
 	UINT addr = FLASH_START_ADDR;
 	UINT i =0,j=0;
 	UINT front = 0,back=0;//0代表对齐，1代表不对齐
 	//入参检查
-	if(!buff || sector+count > FLASH_SECTOR_NUMBER)
+	if(!buff || sector+count >= FLASH_SECTOR_NUMBER)
 		return RES_PARERR;
 	//设备检查
 	if(flash_initialize(0))
@@ -111,12 +111,13 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	FLASH_Unlock();
 	//处理前后对齐
 	if(front){
-		flash_read(pdrv,swap_buff,sector-1,1);
-	//	if(FLASH_COMPLETE != FLASH_ErasePage(addr-FLASH_SECTOR_SIZE))return RES_ERROR;
+		//attention！！！！！！！！！\
+		如果划分了逻辑扇区，则read和write函数在传入的参数都是未偏移的sector，此处的sector已经完成了偏移。\
+	之前引入的bug，现在修改过来，并且记录
+		flash_read(pdrv,swap_buff,sector-USER_START_SECTOR-1,1);
 	}
 	if(back){
-		flash_read(pdrv,swap_buff+FLASH_SECTOR_SIZE,sector+count,1);
-	//	if(FLASH_COMPLETE != FLASH_ErasePage(addr+FLASH_SECTOR_SIZE*(sector+count-1)))return RES_ERROR;
+		flash_read(pdrv,swap_buff+FLASH_SECTOR_SIZE,sector-USER_START_SECTOR+count,1);
 	}
 	//批量擦除扇区
 	for(;i<=count;i+=2){//==是前后均不对齐的情况。因为前不对齐时，左移了擦除地址。导致后不对齐变成对齐

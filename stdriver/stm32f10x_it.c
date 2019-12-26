@@ -54,10 +54,17 @@ void NMI_Handler(void)
   */
 void HardFault_Handler(void)
 {
+	/*
+	if (CoreDebug->DHCSR & 1) {  //check C_DEBUGEN == 1 -> Debugger Connected  
+      __breakpoint(0);  // halt program execution here         
+  } 
   /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
+ 
+/*	while (1)
   {
   }
+	*/
+	int a = 0;
 }
 
 /**
