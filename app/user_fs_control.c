@@ -25,7 +25,7 @@ xTaskHandle FS_TEST_TASK_PCB;//打印系统FLASH线程句柄
 /*****
 freertos的任务堆栈很小，所以尽量不要在任务堆栈里面定义较大变量，以免任务堆栈溢出！！！
 *********/
-FIL fp;
+static FIL fp;
 char buffer[20];
 int count=0;
 
@@ -45,11 +45,11 @@ void fs_init(){
 			work = pvPortMalloc(work_buff_len);//fs 格式化过程中的临时缓冲区
 			configASSERT(work);
 			fs = &fatfs;
-			r_event = f_mkfs("1:", 0, work, work_buff_len);
+			r_event = f_mkfs("FLASH", 0, work, work_buff_len);
 			configASSERT(!r_event);
-			r_event = f_mount(fs, "1:", 1);
+			r_event = f_mount(fs, "FLASH",1);
 			configASSERT(!r_event);
-			r_event = f_getfree("1:",&clust_size,&fs);
+			r_event = f_getfree("FLASH",&clust_size,&fs);
 			configASSERT(!r_event);
 			xprintf_s("fs mount success,size:%d clust\n",clust_size);
 		}
@@ -66,18 +66,18 @@ void fs_test(){
 											pdTRUE,//true逻辑与等待
 											portMAX_DELAY);//等待时间	
 		if(r_event & fs_mount_ok == fs_mount_ok){//fs已经挂载
-			r_event = f_open(&fp, "1:hello.txt", FA_CREATE_NEW | FA_WRITE);
+			r_event = f_open(&fp, "FLASH:hello.txt", FA_CREATE_NEW | FA_WRITE);
 			configASSERT(!r_event);
 			f_write(&fp, "Hello, World!\n你好世界", 30, &count);
 			configASSERT(count == 30);
 			f_close(&fp);
-			r_event = f_open(&fp, "1:hello.txt", FA_READ);
+			r_event = f_open(&fp, "FLASH:hello.txt", FA_READ);
 			configASSERT(!r_event);
 			f_read(&fp,buffer,30,&count);
 			f_close(&fp);
 			xprintf_s("read text:%s\n",buffer);
-			vPortFree(work);
-			f_unmount("1:");
+			//vPortFree(work);
+			//f_unmount("1:");
 			//fs基本读写完成，事件置位
 			xEventGroupSetBits(sys_base_event_group,fs_file_operate_ok);
 			//任务完成，删除任务  删除自身，参数填NULL

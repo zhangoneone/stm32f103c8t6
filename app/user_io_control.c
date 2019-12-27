@@ -7,12 +7,13 @@
 #include "semphr.h"
 #include "event_groups.h"
 
-#include "xprintf.h"
 #include "user_io_control.h"
+#include "xprintf.h"
 #include "user_app_common.h"
 xTaskHandle IO_TASK_PCB;//IO线程句柄
 SemaphoreHandle_t serial_sem = NULL;//串口空闲互斥量
 extern const sys_base_event_t fs_file_operate_ok;
+extern const sys_base_event_t io_operate_ok;
 static EventBits_t r_event;//事件返回值
 static char buff[20];
 void io_out(){
@@ -34,6 +35,8 @@ void io_test(){
 		if(r_event & fs_file_operate_ok == fs_file_operate_ok){//fs已经挂载
 			io_out();
 			io_in();
+			//事件置位
+			xEventGroupSetBits(sys_base_event_group,io_operate_ok);
 			vTaskDelete(NULL);
 		}
 }

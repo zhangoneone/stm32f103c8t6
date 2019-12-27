@@ -31,6 +31,7 @@ void xprintf_s(const char*	fmt,...);
 #if _USE_XFUNC_IN
 #define xdev_in(func) xfunc_in = (unsigned char(*)(void))(func)
 extern unsigned char (*xfunc_in)(void);
+char xgetc();
 int xgets (char* buff, int len);
 int xfgets (unsigned char (*func)(void), char* buff, int len);
 int xatoi (char** str, long* res);

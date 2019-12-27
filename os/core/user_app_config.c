@@ -16,6 +16,7 @@ const sys_base_event_t sys_init_ok = SYS_INIT_OK;//枚举
 const sys_base_event_t flash_init_ok = FLASH_INIT_OK;//枚举
 const sys_base_event_t fs_mount_ok = FS_MOUNT_OK;//枚举
 const sys_base_event_t fs_file_operate_ok = FS_FILE_OPERATE_OK;//枚举
+const sys_base_event_t io_operate_ok = IO_OPERATE_OK;//枚举
 //初始化参数和内核参数，并且添加app
 int software_init(){
 	//设置io流载体
@@ -99,5 +100,11 @@ int freertos_app_add(){
 							NULL,
 							3,
 							&IO_TASK_PCB );
+	xTaskCreate(shell_test,
+							"shell_test_task",	
+							128,
+							NULL,
+							3,
+							&Shell_Test_Task_TCB );
 	return 0;
 }

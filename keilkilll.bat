@@ -24,4 +24,7 @@ del *.iex /s
 del *.htm /s
 del *.sct /s
 del *.map /s
+del *._2i /s
+del *.fed /s
+del *.l2p /s
 exit

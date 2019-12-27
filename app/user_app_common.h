@@ -12,17 +12,25 @@
 #include "user_rcc_control.h"
 #include "user_flash_control.h"
 #include "user_fs_control.h"
-//#inlucde "user_io_control.h"
-extern xTaskHandle IO_TASK_PCB;//IO线程句柄
-extern SemaphoreHandle_t serial_sem;//串口资源互斥量
-void io_test();
-extern void xprintf_s(const char*	fmt,...);
+#include "user_io_control.h"
+#include "user_shell_control.h"
+
 typedef enum{
 	SYS_INIT_OK = (0x01<<0),
 	FLASH_INIT_OK = (0x01<<1),
 	FS_MOUNT_OK = (0x01<<2),
 	FS_FILE_OPERATE_OK = (0x01<<3),
+	IO_OPERATE_OK = (0x01<<4),
 }sys_base_event_t;//枚举类型
 
+
+//以C写的函数，如果要被C++调用，需要以extern  “C”的方式，在其hpp文件中声明
+//C函数列表
+void xprintf_s(const char*	fmt,...);
+
+
+//以C++写的函数，不应该直接被C直接包含，只能以extern的方式，放到common头文件中。
+//C++函数列表
+extern void do_action();
 
 #endif

@@ -299,7 +299,14 @@ void put_dump (
 
 #if _USE_XFUNC_IN
 unsigned char (*xfunc_in)(void);	/* Pointer to the input stream */
+/*----------------------------------------------*/
+/* Get a character from the input,if empty then block */
+/*----------------------------------------------*/
 
+char xgetc(){
+	if (!xfunc_in) return 0;		/* No input function specified */
+	return xfunc_in();
+}
 /*----------------------------------------------*/
 /* Get a line from the input                    */
 /*----------------------------------------------*/

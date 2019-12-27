@@ -1,7 +1,8 @@
 #include "user_usart.h"	
 #include "stdarg.h"	 	 
 #include "stdio.h"	 	 
-#include "string.h"	
+#include "string.h"
+
 //加入以下代码,支持printf函数,而不需要选择use MicroLIB	  
 #pragma import(__use_no_semihosting)             
 //标准库需要的支持函数                 
@@ -24,6 +25,7 @@ int fputc(int ch, FILE *f)
     USART1->DR = (u8) ch;      
 	return ch;
 } 
+
 //串口1初始化
 void USART1_Config(int boaud_rate)		//初始化 配置USART1
 {
