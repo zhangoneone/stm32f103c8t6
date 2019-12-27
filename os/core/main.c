@@ -14,7 +14,7 @@ static void hardware_init(){
 	USART1_Config(115200);
 	user_led_init();
 	user_crc_init();
-	printf("bsp setup!");
+	printf("bsp setup!\r\n");
 }
 
 int main( void ){

@@ -21,6 +21,7 @@ typedef enum{
 	SYS_INIT_OK = (0x01<<0),
 	FLASH_INIT_OK = (0x01<<1),
 	FS_MOUNT_OK = (0x01<<2),
+	FS_FILE_OPERATE_OK = (0x01<<3),
 }sys_base_event_t;//Ã¶¾ÙÀàÐÍ
 
 

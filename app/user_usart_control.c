@@ -26,6 +26,6 @@ void usart_heart_beat(){
   PreviousWakeTime = xTaskGetTickCount();
 	while(1){
 			vTaskDelayUntil(&PreviousWakeTime,TimeIncrement); /* 延时5000 tick，这里是5000ms */
-			xprintf_s("running time:%lus\n",PreviousWakeTime/1000);
+			//xprintf_s("running time:%lus\n",PreviousWakeTime/1000);
 	}
 }

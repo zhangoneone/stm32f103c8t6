@@ -179,13 +179,19 @@ void xprintf (			/* Put a formatted string to the default device */
 	va_end(arp);
 }
 
-extern SemaphoreHandle_t secure_print_sem;//串口空闲互斥量
+static SemaphoreHandle_t secure_print_sem = NULL;//串口空闲互斥量
 void xprintf_s(
 	const char*	fmt,	/* Pointer to the format string */
 	...					/* Optional arguments */
 	)
 {
 	va_list arp;
+	if(NULL == secure_print_sem){
+		secure_print_sem = (SemaphoreHandle_t)0x1;//第一时间让变量非NULL，以免多个task进入
+		//串口资源互斥量初始化
+		secure_print_sem = xSemaphoreCreateBinary();
+		xSemaphoreGive(secure_print_sem);
+	}
 	//wait 循环等待，每次等不到则task休眠1tick。
 	while(xSemaphoreTake(secure_print_sem,1) != pdTRUE );
 	

@@ -25,7 +25,6 @@ static EventBits_t r_event;//事件返回值
 //xEventGroupClearBits() 清除事件位
 //
 void show_sys_clock(){
-	while(1){
 		user_sys_clock = user_Get_Sys_Clock();
 		//等待事件
 		r_event = xEventGroupWaitBits(sys_base_event_group,//事件组句柄
@@ -47,5 +46,4 @@ void show_sys_clock(){
 			//实锤了，freertos的事件，不是用来做互斥访问的。
 			vTaskDelete(NULL);//任务完成，删除任务
 		}
-	}
 }

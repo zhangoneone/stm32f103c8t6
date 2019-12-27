@@ -86,8 +86,15 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 }
 
 #elif USE_FAT_FS ==1
+static BYTE swap_buff[FLASH_SECTOR_SIZE*2];//交换缓冲  这个放到函数内部，会产生bug！！！原因待查明
+/*
+reason:flash_write一般是被task调用的函数，在task的函数调用链上，每个局部变量
+都会占用task的栈空间。而task的栈空间一般都是设置小于1k。因此大数组的局部变量
+导致了栈溢出。而在外部申请，则属于全局区的静态变量或者全局区的全局变量，和堆栈无关。
+cortex-m3有msp和psp两个栈指针。由某个设置寄存器，决定使用哪个栈指针作为sp。
+一般os使用msp作为os的栈指针，task使用psp作为task的栈指针。
+*/
 DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
-	BYTE swap_buff[FLASH_SECTOR_SIZE*2];//交换缓冲
 	//stm32支持半字和全字写入
 	UINT data = 0x0;
 	UINT addr = FLASH_START_ADDR;
