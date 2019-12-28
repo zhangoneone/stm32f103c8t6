@@ -33,7 +33,7 @@
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __nr_micro_shell_config_h
 #define __nr_micro_shell_config_h
-
+#include "user_common.h"
 #ifdef __cplusplus
 extern "C"
 {
@@ -111,8 +111,13 @@ The end of line.
 #define NR_SHELL_CMD_HISTORY_BUF_LENGTH 253
 
 /* The user's name. */
+#if ZET6==1
+#define NR_SHELL_USER_NAME "zet6#"
+#elif C8T6==1
 #define NR_SHELL_USER_NAME "c8t6#"
-
+#else
+#error please select product type
+#endif
 /*
 0: \n
 1: \r

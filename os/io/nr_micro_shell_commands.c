@@ -382,7 +382,11 @@ void shell_vi_cmd(char argc, char *argv){
 				}
 				if(ansi_get_char(c, &nr_ansi)==NR_SHELL_END_CHAR){//换行
 					f_puts(nr_ansi.current_line,&fp);
+<<<<<<< Updated upstream
 					f_puts("\r\n",&fp);//写入换行
+=======
+					f_puts("\r\n",&fp);
+>>>>>>> Stashed changes
 					ansi_clear_current_line(&nr_ansi);//写完后清空当前行
 				}
 			}

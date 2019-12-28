@@ -9,14 +9,22 @@ extern "C" {
 typedef struct{
   int (*u_putc)(uchar c);
 	uchar (*u_getc)();
-	uchar* (*u_gets)(USART_TypeDef * Usart_Num);
-	int (*u_puts)(USART_TypeDef * Usart_Num,uchar *s);
-}usart_obj;
+}Usart_Obj_st;
 
 #ifdef USART1
 #define USART1_TXB	128
 #define USART1_RXB	128
-extern const volatile usart_obj usart1_obj;
+extern const volatile Usart_Obj_st usart1_obj;
+#endif
+#ifdef USART2
+#define USART2_TXB	128
+#define USART2_RXB	128
+extern const volatile Usart_Obj_st usart2_obj;
+#endif
+#ifdef USART3
+#define USART3_TXB	128
+#define USART3_RXB	128
+extern const volatile Usart_Obj_st usart3_obj;
 #endif
 void USART1_Config(int boaud_rate);
 void USART2_Config(int boaud_rate);

@@ -38,6 +38,10 @@ typedef unsigned long	DWORD;
 /* This type MUST be 64-bit (Remove this for C89 compatibility) */
 typedef unsigned long long QWORD;
 
+#define C8T6	1
+
+#define ZET6	0
+
 #endif
 
 #endif

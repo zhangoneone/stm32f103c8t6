@@ -20,8 +20,8 @@ const sys_base_event_t io_operate_ok = IO_OPERATE_OK;//枚举
 //初始化参数和内核参数，并且添加app
 int software_init(){
 	//设置io流载体
-	xdev_out(usart1_obj.u_putc);
-	xdev_in(usart1_obj.u_getc);
+	xdev_out(usart3_obj.u_putc);
+	xdev_in(usart3_obj.u_getc);
 	//创建事件组
 	sys_base_event_group = xEventGroupCreate();
 	//将事件置位
