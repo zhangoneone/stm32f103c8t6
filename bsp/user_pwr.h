@@ -17,7 +17,7 @@ USER_RETURN_VALUE user_set_rtc_backup(FunctionalState NewState);
 USER_RETURN_VALUE user_standby_mode();
 //停机模式
 USER_RETURN_VALUE user_stop_mode();
-
+void reboot();
 //获取当前的电源管理状态
 USER_RETURN_VALUE user_get_current_status(uchar *matrix);
 

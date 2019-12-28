@@ -111,7 +111,7 @@ The end of line.
 #define NR_SHELL_CMD_HISTORY_BUF_LENGTH 253
 
 /* The user's name. */
-#define NR_SHELL_USER_NAME "c8t6@root#"
+#define NR_SHELL_USER_NAME "c8t6#"
 
 /*
 0: \n

@@ -111,7 +111,7 @@ extern void vPortFree( void *pv );
 #else
 #define NR_SHELL_END_CHAR '\n'
 #endif
-
+#define NR_QUIT_VI_CHAR		0x1b
 #define shell(c)                                             \
     {                                                        \
         if (ansi_get_char(c, &nr_ansi) == NR_SHELL_END_CHAR) \

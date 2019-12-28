@@ -326,7 +326,7 @@ int xgets (		/* 0:End of stream, 1:A line arrived */
 		c = xfunc_in();				/* Get a char from the incoming stream */
 		if (!c) return 0;			/* End of stream? */
 		if (c == '\r') break;		/* End of line? */
-		if (c == '\b' && i) {		/* Back space? */
+		if ((c == '\b'||c == 0x7f) && i) {		/* Back space? 电脑输入的backspace键值是0x7f*/
 			i--;
 #if _LINE_ECHO
 			xputc(c);

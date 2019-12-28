@@ -38,9 +38,8 @@
 #include "xprintf.h"
 #include "FreeRTOSConfig.h"
 //显示当前目录
-#define PWD_LEN	10
-static TCHAR cur_dir[PWD_LEN]="";
-
+#define PWD_LEN	20
+static TCHAR cur_dir[PWD_LEN]="/";
 
 #if 0
 //用不上了，已经实现过了
@@ -73,11 +72,67 @@ void shell_command_parse(char *cmd,char **argv,int *count){
 
 
 #endif
+
+void shell_mkfs_cmd(char argc,char *argv){
+	extern FATFS *fs;
+	//extern const int work_buff_len;
+	/*!!!!!!!!!!attetion!!!!!!!!!!*/
+	
+	
+	
+	
+	//这里的写法有很大的隐患。extern char work[512];的写法，到底是引用了其他模块的work，还是自己申请了一个work?\
+	不过就目前shell task只有128byte的栈来说，如果没有发生栈溢出，那就是引用了别的模块的work
+	extern char work[512];
+	FRESULT fr;
+	fr = f_mkfs("FLASH", 0, work, sizeof work);
+	if(fr == FR_OK){shell_printf("mk fs success\n");}
+	else {configASSERT(!fr);}
+	fr = f_mount(fs, "FLASH",1);
+	if(fr == FR_OK){shell_printf("mount fs success\n");}
+	else {configASSERT(!fr);}
+}
+
+void shell_mkdir_cmd(char argc,char *argv){
+	FRESULT fr;
+	if(argc > 1)
+	{
+		//创建目录
+			fr = f_mkdir(&argv[argv[1]]);
+			if(fr == FR_EXIST){shell_printf("directory has exist...");return;}
+			configASSERT(!fr);
+	}
+	else{
+		shell_printf("useage: mkdir [path]\r\n");
+	}	
+}
 void shell_pwd_cmd(char argc,char *argv){
 		FRESULT fr;
     fr = f_getcwd(cur_dir, PWD_LEN);  /* Get current directory path */
 		configASSERT(!fr);
 		shell_printf("%s\n",cur_dir);
+}
+extern shell_st nr_shell;//改变路径名
+void shell_cd_cmd(char argc,char *argv){
+	FRESULT fr;
+	if(argc > 1)
+	{
+		//切换目录
+			fr = f_chdir(&argv[argv[1]]);
+			if(fr == FR_NO_PATH){shell_printf("directory not exist...");return;}
+			configASSERT(!fr);
+			//更新当前目录
+			fr = f_getcwd(cur_dir, PWD_LEN);  /* Get current directory path */(0,0);
+			configASSERT(!fr);
+			//同步目录名
+			strcpy(nr_shell.user_name+strlen(NR_SHELL_USER_NAME),cur_dir);
+			fr = strlen(nr_shell.user_name);
+			nr_shell.user_name[fr]='~';
+			nr_shell.user_name[fr+1]=0;
+	}
+	else{
+		shell_printf("useage: cd [path]\r\n");
+	}	
 }
 FRESULT scan_files (char* path){
     FRESULT res;
@@ -93,15 +148,17 @@ FRESULT scan_files (char* path){
             if (fno->fattrib & AM_DIR) {                    /* It is a directory */
                 i = strlen(path);
                 xsprintf(&path[i], "/%s", fno->fname);
-                res = scan_files(path);                    /* Enter the directory */
-                if (res != FR_OK) break;
-                path[i] = 0;
+								shell_printf("%s  ",&path[i]);		//显示该目录
+               // res = scan_files(path);                    /* Enter the directory */
+               // if (res != FR_OK) break;
+                //path[i] = 0;
             } else {                                       /* It is a file. */
 								if(!strcmp("/",path)){
-										shell_printf("/%s\n",fno->fname);
+										shell_printf("%s  ",fno->fname);
 								}
 								else{
-										shell_printf("%s/%s\n", path, fno->fname);
+										//shell_printf("%s/%s\n", path, fno->fname);
+										shell_printf("%s  ",fno->fname);
 								}
             }
         }
@@ -121,6 +178,7 @@ void shell_mk_cmd(char argc,char *argv){
 	{
 		//创建文件
 			fr = f_open(&fp, &argv[argv[1]], FA_CREATE_NEW);
+			if(fr == FR_EXIST){shell_printf("file has exist...");f_close(&fp);return;}
 			configASSERT(!fr);
 			f_close(&fp);
 	}
@@ -134,6 +192,7 @@ void shell_rm_cmd(char argc,char *argv){
 	if(argc > 1){
 		//提供路径
 		fr = f_unlink(&argv[argv[1]]);
+		if(fr == FR_NO_FILE){shell_printf("no such file or directory\n");return;}
 		configASSERT(!fr);
 	}
 	else{
@@ -178,10 +237,10 @@ void shell_cat_cmd(char argc,char *argv){
 //echo command  write file command
 void shell_echo_cmd(char argc,char *argv){
 		FIL fp;
-	 unsigned int i = 0;
+	 unsigned int i = 0,j=0;
 	int slen =0;
 	FRESULT fr;
-	if(argc > 1)
+	if(argc == 3)
 	{
 			//打开文件
 			fr = f_open(&fp, &argv[argv[1]],FA_OPEN_APPEND|FA_WRITE);
@@ -195,15 +254,30 @@ void shell_echo_cmd(char argc,char *argv){
 				shell_printf("write error:%d\n",fr);
 				return;
 			}
-			slen = strlen(&(argv[argv[2]]));
 			//f_puts(&(argv[argv[2]]),&fp);
+			slen = strlen(&(argv[argv[2]]));
 			f_write(&fp,&(argv[argv[2]]),slen,&i);
 			shell_printf("%s write %d byte,context %s\n",&argv[argv[1]],i,&(argv[argv[2]]));
 			f_close(&fp);
 	}
+	else if(argc==2){//等同于新建一个文件，或者打开一个文件但是不追加数据
+		//打开文件
+			fr = f_open(&fp, &argv[argv[1]],FA_OPEN_APPEND|FA_WRITE);
+			if(fr == FR_NO_FILE){
+				f_close(&fp);
+				//没有则新建
+				fr = f_open(&fp, &argv[argv[1]], FA_CREATE_NEW | FA_WRITE);
+			}
+			if(fr !=FR_OK){
+				f_close(&fp);
+				shell_printf("write error:%d\n",fr);
+				return;
+			}
+			f_close(&fp);
+	}
 	else{
-		shell_printf("useage: echo [filename] [string]\r\n");
-	}	
+		shell_printf("useage: echo [filename] <option>[string]\r\n");
+	}		
 }
 /**
  * @brief ls command
@@ -240,6 +314,7 @@ void shell_ls_cmd(char argc,char *argv)
 		fr = f_getcwd(cur_dir, PWD_LEN);  /* Get current directory path */
 		configASSERT(!fr);
     fr = scan_files(cur_dir);
+		shell_printf("\n");
 		configASSERT(!fr);
 	}
 
@@ -258,6 +333,80 @@ void shell_test_cmd(char argc, char *argv)
 	}
 }
 
+
+//重启机器
+void shell_reboot_cmd(char argc, char *argv){
+	extern void reboot();
+	int i =1000;
+	while(i--);//稍作停顿
+	reboot();
+}
+
+
+//vi编辑器命令
+void shell_vi_cmd(char argc, char *argv){
+#define buff_len 256
+	FIL fp;
+	unsigned int i = 0;
+	int slen =0;
+	char c;
+	FRESULT fr;
+	if(argc == 2){
+			//打开文件
+			fr = f_open(&fp, &argv[argv[1]],FA_OPEN_APPEND|FA_WRITE);
+			if(fr == FR_NO_FILE){
+				f_close(&fp);
+				//没有则新建
+				fr = f_open(&fp, &argv[argv[1]], FA_CREATE_NEW | FA_WRITE);
+			}
+			if(fr !=FR_OK){
+				f_close(&fp);
+				shell_printf("open file error:%d\n",fr);
+				return;
+			}
+			//进入编辑模式
+			//应该接管输入流，直到遇见esc按键
+			//f_puts(&(argv[argv[2]]),&fp);
+		while(1){
+				c = xgetc();//获取1个字符
+				if(c == NR_QUIT_VI_CHAR){//esc
+						c = NR_SHELL_END_CHAR;
+						slen+=nr_ansi.counter;
+						ansi_get_char(c, &nr_ansi);
+						f_puts(nr_ansi.current_line,&fp);
+						ansi_clear_current_line(&nr_ansi);//写完后清空当前行
+						break;
+				}
+				if(c == NR_SHELL_END_CHAR){//换行前先记录counter
+					slen+=nr_ansi.counter;
+				}
+				if(ansi_get_char(c, &nr_ansi)==NR_SHELL_END_CHAR){//换行
+					f_puts(nr_ansi.current_line,&fp);
+					ansi_clear_current_line(&nr_ansi);//写完后清空当前行
+				}
+			}
+		f_sync(&fp);
+		f_close(&fp);	
+		shell_printf("write %d character\r\n",slen);
+	}
+	else{
+		shell_printf("useage: vi [filename]\r\n");
+	}
+}
+
+
+//run command
+void shell_run_cmd(char argc,char *argv){
+	FRESULT fr;
+	if(argc > 1){
+		shell_printf("wait for more...\r\n");
+	}
+	else{
+		shell_printf("useage: run [filename]\r\n");
+		shell_printf("run a script");
+	}
+}
+
 /**
  * @brief command list
  */
@@ -270,6 +419,12 @@ const static_cmd_st static_cmd[] =
 	 {"echo",shell_echo_cmd},
 	 {"cat",shell_cat_cmd},
 	 {"rm",shell_rm_cmd},
+	 {"mkdir",shell_mkdir_cmd},
+	 {"cd",shell_cd_cmd},
+	 {"mkfs",shell_mkfs_cmd},
+	 {"reboot",shell_reboot_cmd},
+	 {"vi",shell_vi_cmd},
+	 {"run",shell_run_cmd},
    {"\0",NULL}
 };
 

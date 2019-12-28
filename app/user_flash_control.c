@@ -30,7 +30,9 @@ void flash_test(){
 	  flash_size_value = flash_size();
 		xprintf_s("FLASH:%uKB\n",flash_size_value);
 		//裸板flash测试
-		flash_read_write_test();
+		//flash_read_write_test();
+		//flash裸板测试完成，事件置位
+		xEventGroupSetBits(sys_base_event_group,flash_init_ok);
 		//任务完成，删除任务 删除自身，参数是NULL
 		vTaskDelete(NULL);
 }

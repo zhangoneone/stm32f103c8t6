@@ -37,7 +37,10 @@ USER_RETURN_VALUE user_stop_mode(){
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);//使能PWR时钟
 	PWR_EnterSTOPMode(PWR_Regulator_LowPower,PWR_STOPEntry_WFI);//任一中断都可唤醒，低功耗模式
 }
-
+void reboot(){
+		__set_FAULTMASK(1); // 关闭一切中断
+    NVIC_SystemReset(); // 复位
+}
 //获取当前的电源管理状态
 //把状态数组的当前状态置位
 USER_RETURN_VALUE user_get_current_status(uchar *matrix){

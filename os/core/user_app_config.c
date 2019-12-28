@@ -104,7 +104,7 @@ int freertos_app_add(){
 							"shell_test_task",	
 							128,
 							NULL,
-							3,
+							2,
 							&Shell_Test_Task_TCB );
 	return 0;
 }

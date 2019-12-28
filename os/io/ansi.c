@@ -59,7 +59,8 @@ void (*const nr_ansi_in_cmd_fun[])(ansi_st *) =
         nr_ansi_in_s_function,
         nr_ansi_in_u_function};
 
-const char nr_ansi_in_special_symbol[] = {'\b', '\n', '\r', '\t', '\0'};
+//notes:键盘上输入backspace，实际上的键值是0x7f,而不是'\b'。所以我们要用0x7f替换'\b'
+const char nr_ansi_in_special_symbol[] = {0x7f, '\n', '\r', '\t', '\0'};
 void (*const nr_ansi_in_special_symbol_fun[])(ansi_st *) =
     {
         nr_ansi_in_bsb_function,
