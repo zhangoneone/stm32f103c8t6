@@ -14,6 +14,15 @@ io:xprintf                       =============>改进为线程安全io
 
 shell:nr_micro_shell             =============>实现了部分linux命令
 
-tcp/ip:lwip
+tcp/ip:lwip						 =============>未在此分支实现，在master分支上实现
+
+
+在未作裁剪的情况下，使用以上模块的全部功能，大约占用stm32f103c8t6一半左右的ram和rom资源。
+
+
+此分支暂时封存，转向master分支，延续项目的后续开发。
+
+
+master分支采用stm32f103zet6
 
 
