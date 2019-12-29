@@ -178,7 +178,7 @@ void assert_failed( unsigned char* pcFile, unsigned long ulLine )
 #define configUSE_MALLOC_FAILED_HOOK 0
 
 //堆栈溢出检测钩子 使用的话，设置成 1 2，因为有2种检测方式
-#define configCHECK_FOR_STACK_OVERFLOW 0
+#define configCHECK_FOR_STACK_OVERFLOW 2
 
 //任务状态和运行状态收集
 //运行时间统计
@@ -227,10 +227,12 @@ vTaskGetRunTimeStats()
 #define configPRIO_BITS __NVIC_PRIO_BITS
 #else
 #define configPRIO_BITS 4
+//这里配置的抢占优先级是4位，没有子优先级
 #endif
 //中断最低优先级
 #define configLIBRARY_LOWEST_INTERRUPT_PRIORITY 15
 
+//0-4优先级的中断，都不会收到os的影响。因为freertos关中断只会关掉5~15优先级的中断
 //系统可管理的最高中断优先级
 #define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY 5
 #define configKERNEL_INTERRUPT_PRIORITY	\

@@ -14,6 +14,7 @@
 #include "user_fs_control.h"
 #include "user_io_control.h"
 #include "user_shell_control.h"
+#include "user_exti_control.h"
 
 typedef enum{
 	SYS_INIT_OK = (0x01<<0),

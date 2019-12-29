@@ -18,7 +18,7 @@ static void hardware_init(){
 	USART3_Config(115200);
 	user_led_init();
 	user_crc_init();
-	xfprintf(usart3_obj.u_putc,"bsp setup!\r\n");
+	xfprintf(usart1_obj.u_putc,"bsp setup!\r\n");
 }
 
 int main( void ){

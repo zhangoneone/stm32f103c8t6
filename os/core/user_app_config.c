@@ -20,8 +20,8 @@ const sys_base_event_t io_operate_ok = IO_OPERATE_OK;//枚举
 //初始化参数和内核参数，并且添加app
 int software_init(){
 	//设置io流载体
-	xdev_out(usart3_obj.u_putc);
-	xdev_in(usart3_obj.u_getc);
+	xdev_out(usart1_obj.u_putc);
+	xdev_in(usart1_obj.u_getc);
 	//创建事件组
 	sys_base_event_group = xEventGroupCreate();
 	//将事件置位
@@ -106,5 +106,15 @@ int freertos_app_add(){
 							NULL,
 							2,
 							&Shell_Test_Task_TCB );
+	xTaskCreate(exti_test,
+							"exti_test_task",	
+							128,
+							NULL,
+							2,
+							&Exti_Test_Task_TCB );
 	return 0;
+}
+//任务堆栈溢出检查，溢出后执行本函数
+void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName ){
+		xprintf_s("task %s stackoverflow!\r\n",pcTaskName);
 }

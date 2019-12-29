@@ -1127,6 +1127,9 @@
           <GroupName>network</GroupName>
         </Group>
         <Group>
+          <GroupName>ns_device</GroupName>
+        </Group>
+        <Group>
           <GroupName>io</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -2464,6 +2467,9 @@
         </Group>
         <Group>
           <GroupName>network</GroupName>
+        </Group>
+        <Group>
+          <GroupName>ns_device</GroupName>
         </Group>
         <Group>
           <GroupName>io</GroupName>

@@ -57,7 +57,7 @@ void USART1_Config(int boaud_rate)		//初始化 配置USART1
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=3 ;//抢占优先级3
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
-	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
+	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化NVIC寄存器
 	
 	//第5步：配置USART1参数
 	USART_InitStructure.USART_BaudRate             = boaud_rate;							 //波特率设置：115200
