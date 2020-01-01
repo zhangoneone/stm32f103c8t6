@@ -431,6 +431,36 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>algorithm</GroupName>
+          <Files>
+            <File>
+              <FileName>ns_bitree.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_bitree.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_list.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_stack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_stack.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_hashtable.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_hashtable.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>stdriver</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -867,6 +897,11 @@
               <FileType>1</FileType>
               <FilePath>..\bsp\user_flash.c</FilePath>
             </File>
+            <File>
+              <FileName>user_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\user_exti.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1124,10 +1159,52 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>network</GroupName>
+          <GroupName>net</GroupName>
         </Group>
         <Group>
-          <GroupName>ns_device</GroupName>
+          <GroupName>device</GroupName>
+          <Files>
+            <File>
+              <FileName>ns_it_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_it_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_dma_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_dma_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_iochannel_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_iochannel_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_device.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_device.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_bus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_bus.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_posix_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_posix_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_test.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>io</GroupName>
@@ -1340,6 +1417,11 @@
               <FileName>user_cplus_control.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\app\user_cplus_control.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>user_exti_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_exti_control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1569,7 +1651,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <RoSelD>3</RoSelD>
@@ -1769,6 +1851,36 @@
               <FileName>startup_stm32f10x_hd.s</FileName>
               <FileType>2</FileType>
               <FilePath>..\boot\startup_stm32f10x_hd.s</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>algorithm</GroupName>
+          <Files>
+            <File>
+              <FileName>ns_bitree.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_bitree.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_list.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_stack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_stack.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_hashtable.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_hashtable.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2121,7 +2233,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\stdriver;..\boot;..\bsp</IncludePath>
+                  <IncludePath>..\stdriver;..\boot;..\bsp;..\stdriver</IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -2208,6 +2320,11 @@
               <FileName>user_flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\user_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_exti.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\user_exti.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2466,10 +2583,114 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>network</GroupName>
+          <GroupName>net</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>0</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>2</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>2</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath>..\net\include;..\os\core;..\os\core\include;..\net\include\arch</IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
         </Group>
         <Group>
-          <GroupName>ns_device</GroupName>
+          <GroupName>device</GroupName>
+          <Files>
+            <File>
+              <FileName>ns_it_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_it_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_dma_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_dma_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_iochannel_manage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_iochannel_manage.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_device.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_device.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_bus.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_bus.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_posix_interface.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_posix_interface.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_test.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>io</GroupName>
@@ -2682,6 +2903,11 @@
               <FileName>user_cplus_control.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\app\user_cplus_control.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>user_exti_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_exti_control.c</FilePath>
             </File>
           </Files>
         </Group>
