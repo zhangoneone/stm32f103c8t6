@@ -10,6 +10,8 @@
 #include "user_usart.h"
 //freertos app head file
 #include "user_app_common.h"
+#include "tcpip.h"
+#include "init.h"
 int freertos_app_add();
 
 const sys_base_event_t sys_init_ok = SYS_INIT_OK;//枚举
@@ -17,6 +19,13 @@ const sys_base_event_t flash_init_ok = FLASH_INIT_OK;//枚举
 const sys_base_event_t fs_mount_ok = FS_MOUNT_OK;//枚举
 const sys_base_event_t fs_file_operate_ok = FS_FILE_OPERATE_OK;//枚举
 const sys_base_event_t io_operate_ok = IO_OPERATE_OK;//枚举
+
+
+void net_init_done_callback(void *args){
+	xprintf_s("lwip init success\r\n");
+}
+
+
 //初始化参数和内核参数，并且添加app
 int software_init(){
 	//设置io流载体
@@ -30,6 +39,11 @@ int software_init(){
 	serial_sem = xSemaphoreCreateBinary();
 	//post
 	xSemaphoreGive(serial_sem);
+	//初始化文件系统
+	
+	//初始化lwip
+	//lwip_init();
+	//tcpip_init(net_init_done_callback,0);
 	freertos_app_add();
 }
 //添加app,创建任务						

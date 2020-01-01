@@ -7,6 +7,10 @@ stm32有19个exit，其中前16个连到了GPIO上，通过选择，可以覆盖所有的GPIO
 即中断和事件的区别。
 */
 
+/*事件机制
+线类型选择位事件线，该线的中断屏蔽开启，事件屏蔽关闭。即可产生事件
+事件的脉冲发生器，连接到了片内其他外设
+*/
 
 /*exit初始化*/
 /*
@@ -98,6 +102,7 @@ uint EXTIx_IRQn,void(*cb)()){
 		regist_exti_info[i].Pin = Pin;
 		regist_exti_info[i].Trigger = Trigger;
 		EXTI->IMR &= ~(EXTI_Linex); //默认关闭的
+		EXTI->EMR &= ~(EXTI_Linex); //默认关闭的
 		return 0;
 	}
 	else return -1;
@@ -106,12 +111,19 @@ uint EXTIx_IRQn,void(*cb)()){
 static void exti_start(uint EXTI_Line){
 	//1.使用外部中断时，AFIO时钟必须使能
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
-	EXTI->IMR |= EXTI_Line;//开启
+	EXTI->IMR |= EXTI_Line;//开启中断
+	EXTI->EMR &= ~(EXTI_Line); //关闭事件
 }
 
 static void exti_stop(uint EXTI_Line){
-	EXTI->IMR &= ~(EXTI_Line); //关闭
+	EXTI->IMR &= ~(EXTI_Line); //关闭中断
+	EXTI->EMR &= ~(EXTI_Line); //关闭事件
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,DISABLE);
+}
+
+
+static void exti_trigger(uint EXTI_Line){
+	EXTI_GenerateSWInterrupt(EXTI_Line);
 }
 
 static int exti_deinit(GPIO_TypeDef* GPIOx,uint Pin,
@@ -135,12 +147,6 @@ uint EXTIx_IRQn
   EXTI_InitStructure.EXTI_Trigger = Trigger;  //???????
   EXTI_InitStructure.EXTI_LineCmd = DISABLE;//?????
   EXTI_Init(&EXTI_InitStructure);//?????
-  //4.NVIC配置
-  NVIC_InitStructure.NVIC_IRQChannel = EXTIx_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
-  NVIC_Init(&NVIC_InitStructure);
 	//找到注册表，销毁
 	i = find_exti(EXTI_Linex);
 	if(i!= -1){
@@ -152,6 +158,8 @@ uint EXTIx_IRQn
 		regist_exti_info[i].GPIO_PortSourceGPIOx = 0;
 		regist_exti_info[i].Pin = 0;
 		regist_exti_info[i].Trigger = 0;
+		EXTI->IMR &= ~(EXTI_Linex); //关闭中断
+		EXTI->EMR &= ~(EXTI_Linex); //关闭事件
 		return 0;
 	}
 	else return -1;
@@ -291,9 +299,129 @@ void EXTI15_10_IRQHandler(void){
 	}	
 }
 
+
 const Exti_St exti_obj={
 	exti_init,
 	exti_start,
 	exti_stop,
+	exti_trigger,
 	exti_deinit,
+};
+
+
+
+static int event_init(GPIO_TypeDef* GPIOx,uint Pin,
+uint GPIO_PortSourceGPIOx,uint GPIO_PinSourcex,
+uint EXTI_Linex,EXTITrigger_TypeDef Trigger,
+uint EXTIx_IRQn){
+	int i = -1;
+  GPIO_InitTypeDef GPIO_InitStructure;
+  EXTI_InitTypeDef EXTI_InitStructure;
+	//GPIO时钟开启
+	switch((uint)GPIOx){
+		case (uint)GPIOA:RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);break;
+		case (uint)GPIOB:RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);break;
+		case (uint)GPIOC:RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,ENABLE);break;
+		case (uint)GPIOD:RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,ENABLE);break;
+		case (uint)GPIOE:RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE,ENABLE);break;
+		case (uint)GPIOF:RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOF,ENABLE);break;
+		case (uint)GPIOG:RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOG,ENABLE);break;
+		default:break;
+	}
+	//1.使用外部中断时，AFIO时钟必须使能
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
+  //2.GPIO配置
+  GPIO_InitStructure.GPIO_Pin = Pin;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  //
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;  //
+  GPIO_Init(GPIOx,&GPIO_InitStructure);  
+  //3.EXIT线配置
+  GPIO_EXTILineConfig(GPIO_PortSourceGPIOx,GPIO_PinSourcex);  //
+  EXTI_InitStructure.EXTI_Line = EXTI_Linex;
+  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Event;
+  EXTI_InitStructure.EXTI_Trigger = Trigger;  //
+  EXTI_InitStructure.EXTI_LineCmd = ENABLE;//
+  EXTI_Init(&EXTI_InitStructure);//
+	//初始化注册结构表
+	i = find_exti(EXTI_Linex);//如果已经存在了，则更新结构表
+	if(i == -1)
+		i = find_empty_site();//如果不存在，则新建
+	if(i!= -1){
+		regist_exti_info[i].callback = 0;
+		regist_exti_info[i].EXTI_Line = EXTI_Linex;
+		regist_exti_info[i].GPIOx = GPIOx;
+		regist_exti_info[i].EXTIx_IRQn = EXTIx_IRQn;
+		regist_exti_info[i].GPIO_PinSourcex = GPIO_PinSourcex;
+		regist_exti_info[i].GPIO_PortSourceGPIOx = GPIO_PortSourceGPIOx;
+		regist_exti_info[i].Pin = Pin;
+		regist_exti_info[i].Trigger = Trigger;
+		EXTI->IMR &= ~(EXTI_Linex); //关闭中断
+		EXTI->EMR &= ~(EXTI_Linex); //关闭事件
+		return 0;
+	}
+	else return -1;
+}
+
+
+
+static void event_start(uint EXTI_Line){
+	//1.使用外部中断时，AFIO时钟必须使能
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
+	EXTI->IMR &= ~(EXTI_Line); //关闭中断
+	EXTI->EMR |= EXTI_Line; //开启事件
+}
+
+static void event_stop(uint EXTI_Line){
+	EXTI->IMR &= ~(EXTI_Line); //关闭中断
+	EXTI->EMR &= ~(EXTI_Line); //关闭事件
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,DISABLE);
+}
+static void event_trigger(uint EXTI_Line){
+	EXTI_GenerateSWInterrupt(EXTI_Line);
+}
+static int event_deinit(GPIO_TypeDef* GPIOx,uint Pin,
+uint GPIO_PortSourceGPIOx,uint GPIO_PinSourcex,
+uint EXTI_Linex,EXTITrigger_TypeDef Trigger,
+uint EXTIx_IRQn
+){
+	int i =-1;
+	GPIO_InitTypeDef GPIO_InitStructure;
+  EXTI_InitTypeDef EXTI_InitStructure;
+  //2.GPIO配置
+  GPIO_InitStructure.GPIO_Pin = Pin;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;  //????
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;  //IO???50MHz
+  GPIO_Init(GPIOx,&GPIO_InitStructure);  
+  //3.EXIT线配置
+  GPIO_EXTILineConfig(GPIO_PortSourceGPIOx,GPIO_PinSourcex);  //?EXIT?9???PB9
+  EXTI_InitStructure.EXTI_Line = EXTI_Linex;
+  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Event;
+  EXTI_InitStructure.EXTI_Trigger = Trigger;  //???????
+  EXTI_InitStructure.EXTI_LineCmd = DISABLE;//?????
+  EXTI_Init(&EXTI_InitStructure);//?????
+	//找到注册表，销毁
+	i = find_exti(EXTI_Linex);
+	if(i!= -1){
+		regist_exti_info[i].callback = 0;
+		regist_exti_info[i].EXTI_Line = 0;
+		regist_exti_info[i].GPIOx = 0;
+		regist_exti_info[i].EXTIx_IRQn = 0;
+		regist_exti_info[i].GPIO_PinSourcex = 0;
+		regist_exti_info[i].GPIO_PortSourceGPIOx = 0;
+		regist_exti_info[i].Pin = 0;
+		regist_exti_info[i].Trigger = 0;
+		EXTI->IMR &= ~(EXTI_Linex); //关闭中断
+		EXTI->EMR &= ~(EXTI_Linex); //关闭事件
+		return 0;
+	}
+	else return -1;
+}
+
+
+const Event_St event_obj={
+	event_init,
+	event_start,
+	event_stop,
+	event_trigger,
+	event_deinit,
 };

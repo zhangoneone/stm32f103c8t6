@@ -10,6 +10,7 @@
 #include "user_usart.h"
 #include "user_led.h"
 #include "user_crc.h"
+#include "user_dma.h"
 static void hardware_init(){
   //因为还没有加载os，不能使用xprintf_s，使用以下函数，指定out流
 	extern void xfprintf(void(*func)(unsigned char),	const char*	fmt,...);

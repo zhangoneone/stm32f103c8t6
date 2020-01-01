@@ -17,26 +17,26 @@ typedef struct{
 extern const volatile Usart_Obj_st usart1_obj;
 #endif
 #ifdef USART2
-#define USART2_TXB	128
-#define USART2_RXB	128
+#define USART2_TXB	64
+#define USART2_RXB	64
 extern const volatile Usart_Obj_st usart2_obj;
 #endif
 #ifdef USART3
-#define USART3_TXB	128
-#define USART3_RXB	128
+#define USART3_TXB	64
+#define USART3_RXB	64
 extern const volatile Usart_Obj_st usart3_obj;
 #endif
 
 #if defined(UART4)&&(ZET6==1)
-#define UART4_TXB	128
-#define UART4_RXB	128
+#define UART4_TXB	64
+#define UART4_RXB	64
 extern const volatile Usart_Obj_st usart4_obj;
 void UART4_Config(int boaud_rate);
 #endif
 
 #if defined(UART5)&&(ZET6==1)
-#define UART5_TXB	128
-#define UART5_RXB	128
+#define UART5_TXB	64
+#define UART5_RXB	64
 extern const volatile Usart_Obj_st usart5_obj;
 void UART5_Config(int boaud_rate);
 #endif
