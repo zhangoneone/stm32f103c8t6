@@ -126,6 +126,12 @@ int freertos_app_add(){
 							NULL,
 							2,
 							&Exti_Test_Task_TCB );
+	xTaskCreate(basic_timer_test,
+							"basic_timer_test_task",	
+							128,
+							NULL,
+							2,
+							&Basic_Timer_Test_Task_TCB );
 	return 0;
 }
 //任务堆栈溢出检查，溢出后执行本函数

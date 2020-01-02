@@ -1,7 +1,5 @@
 #include "user_dma.h"
-
-
-  
+ 
 //DMA1的各通道配置
 //这里的传输形式是固定的,这点要根据不同的情况来修改
 //从存储器->外设模式/8位数据宽度/存储器增量模式
@@ -100,8 +98,7 @@ static void user_Dma_init(DMA_Channel_TypeDef* DMA_CHx,u32 cpar,u32 cmar){
 #endif
 } 
 //开启一次DMA传输
-static void user_Dma_Enable(DMA_Channel_TypeDef*DMA_CHx,uint transmit_counter)
-{ 
+static void user_Dma_Enable(DMA_Channel_TypeDef*DMA_CHx,uint transmit_counter){ 
 	DMA_Cmd(DMA_CHx, DISABLE );  //关闭USART1 TX DMA1 所指示的通道 
 	DMA_ITConfig(DMA_CHx, DMA_IT_TC, ENABLE);	//传输完成中断
 	DMA_ITConfig(DMA_CHx, DMA_IT_TE, ENABLE);	//传输出错中断
@@ -113,11 +110,12 @@ static void user_Dma_Disable(DMA_Channel_TypeDef*DMA_CHx){
 	DMA_Cmd(DMA_CHx, DISABLE );
 }
 
-volatile uint failed_counter[7+5]={0};
+volatile uint failed_counter[7+5]={0,0,0,0,0,0,0,0,0,0,0,0};
 void DMA1_Channel1_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC1) == SET){//传输完成
 		DMA_ClearFlag(DMA1_FLAG_TC1);//清除通道传输完成标志
+		failed_counter[0] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA1_FLAG_TE1) == SET){//传输出错
 		DMA_ClearFlag(DMA1_FLAG_TE1);//清除通道传输出错标志
@@ -130,6 +128,7 @@ void DMA1_Channel2_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC2) == SET){//传输完成
 		DMA_ClearFlag(DMA1_FLAG_TC2);//清除通道传输完成标志
+		failed_counter[1] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA1_FLAG_TE2) == SET){//传输出错
 		DMA_ClearFlag(DMA1_FLAG_TE2);//清除通道传输出错标志
@@ -141,6 +140,7 @@ void DMA1_Channel3_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC3) == SET){//传输完成
 		DMA_ClearFlag(DMA1_FLAG_TC3);//清除通道传输完成标志
+		failed_counter[2] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA1_FLAG_TE3) == SET){//传输出错
 		DMA_ClearFlag(DMA1_FLAG_TE3);//清除通道传输出错标志
@@ -152,6 +152,7 @@ void DMA1_Channel4_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC4) == SET){//传输完成
 		DMA_ClearFlag(DMA1_FLAG_TC4);//清除通道传输完成标志
+		failed_counter[3] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA1_FLAG_TE4) == SET){//传输出错
 		DMA_ClearFlag(DMA1_FLAG_TE4);//清除通道传输出错标志
@@ -163,6 +164,7 @@ void DMA1_Channel5_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC5) == SET){//传输完成
 		DMA_ClearFlag(DMA1_FLAG_TC5);//清除通道传输完成标志
+		failed_counter[4] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA1_FLAG_TE5) == SET){//传输出错
 		DMA_ClearFlag(DMA1_FLAG_TE5);//清除通道传输出错标志
@@ -174,6 +176,7 @@ void DMA1_Channel6_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC6) == SET){//传输完成
 		DMA_ClearFlag(DMA1_FLAG_TC1);//清除通道传输完成标志
+		failed_counter[5] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA1_FLAG_TE6) == SET){//传输出错
 		DMA_ClearFlag(DMA1_FLAG_TE6);//清除通道传输出错标志
@@ -185,6 +188,7 @@ void DMA1_Channel7_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC7) == SET){//传输完成
 		DMA_ClearFlag(DMA1_FLAG_TC7);//清除通道传输完成标志
+		failed_counter[6] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA1_FLAG_TE7) == SET){//传输出错
 		DMA_ClearFlag(DMA1_FLAG_TE7);//清除通道传输出错标志
@@ -198,6 +202,7 @@ void DMA2_Channel1_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA2_FLAG_TC1) == SET){//传输完成
 		DMA_ClearFlag(DMA2_FLAG_TC1);//清除通道传输完成标志
+		failed_counter[7] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA2_FLAG_TE1) == SET){//传输出错
 		DMA_ClearFlag(DMA2_FLAG_TE1);//清除通道传输出错标志
@@ -209,6 +214,7 @@ void DMA2_Channel2_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA2_FLAG_TC2) == SET){//传输完成
 		DMA_ClearFlag(DMA2_FLAG_TC2);//清除通道传输完成标志
+		failed_counter[8] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA2_FLAG_TE2) == SET){//传输出错
 		DMA_ClearFlag(DMA2_FLAG_TE2);//清除通道传输出错标志
@@ -220,6 +226,7 @@ void DMA2_Channel3_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA2_FLAG_TC3) == SET){//传输完成
 		DMA_ClearFlag(DMA2_FLAG_TC3);//清除通道传输完成标志
+		failed_counter[9] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA2_FLAG_TE3) == SET){//传输出错
 		DMA_ClearFlag(DMA2_FLAG_TE3);//清除通道传输出错标志
@@ -232,6 +239,7 @@ void DMA2_Channel4_5_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA2_FLAG_TC4) == SET){//传输完成
 		DMA_ClearFlag(DMA2_FLAG_TC4);//清除通道传输完成标志
+		failed_counter[10] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA2_FLAG_TE4) == SET){//传输出错
 		DMA_ClearFlag(DMA2_FLAG_TE4);//清除通道传输出错标志
@@ -242,6 +250,7 @@ void DMA2_Channel4_5_IRQHandler(){
 	//读取标志位，查看dma传输情况
 	if(DMA_GetFlagStatus(DMA2_FLAG_TC5) == SET){//传输完成
 		DMA_ClearFlag(DMA2_FLAG_TC5);//清除通道传输完成标志
+		failed_counter[11] = 0;
 	}
 	if(DMA_GetFlagStatus(DMA2_FLAG_TE5) == SET){//传输出错
 		DMA_ClearFlag(DMA2_FLAG_TE5);//清除通道传输出错标志
