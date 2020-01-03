@@ -10,7 +10,7 @@
 ** 说明：定时时间=(预分频数+1）*（计数值+1) /TIM6时钟(72MHz)，单位(s)
    这里溢出时间t=(7200*10000)/72000000s=1s
 ***********************************************************/
-void TIM6_Int_Init(u16 arr,u16 psc){
+static void TIM6_Int_Init(u16 arr,u16 psc){
 	TIM_TimeBaseInitTypeDef    TIM_TimeBaseStructure;
 	NVIC_InitTypeDef           NVIC_InitStructure;
 	
@@ -57,7 +57,7 @@ void TIM6_IRQHandler(void){
 ** 说明：定时时间=(预分频数+1）*（计数值+1) /TIM6时钟(72MHz)，单位(s)
    这里溢出时间t=(7200*10000)/72000000s=1s
 ***********************************************************/
-void TIM7_Int_Init(u16 arr,u16 psc)
+static void TIM7_Int_Init(u16 arr,u16 psc)
 {
 	TIM_TimeBaseInitTypeDef    TIM_TimeBaseStructure;
 	NVIC_InitTypeDef           NVIC_InitStructure;
@@ -104,7 +104,7 @@ void TIM7_IRQHandler(void){
 ** 说明：定时时间=(预分频数+1）*（计数值+1) /TIM6时钟(72MHz)，单位(s)
    这里溢出时间t=(7200*10000)/72000000s=1s
 ***********************************************************/
-void update(TIM_TypeDef *TIMx,u16 arr,u16 psc){
+static void update(TIM_TypeDef *TIMx,u16 arr,u16 psc,Update_option_t option){
 	//禁止产生更新事件
 	TIM_UpdateDisableConfig(TIMx,ENABLE);
 	/* Set the Autoreload value */
@@ -114,8 +114,8 @@ void update(TIM_TypeDef *TIMx,u16 arr,u16 psc){
   TIMx->PSC = psc;
 	//允许产生更新事件
 	TIM_UpdateDisableConfig(TIMx,DISABLE);
-	//更新事件开启，下次溢出生效配置
-	TIM_GenerateEvent(TIMx,TIM_EventSource_Update);
+	if(option == immediately)		//强制更新，立即生效配置
+		TIM_GenerateEvent(TIMx,TIM_EventSource_Update);
 }
 static void start(TIM_TypeDef *TIMx){	
 	TIM_Cmd(TIMx, ENABLE);     //使能定时器

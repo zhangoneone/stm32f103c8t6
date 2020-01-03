@@ -15,15 +15,15 @@
 
 xTaskHandle Basic_Timer_Test_Task_TCB;
 void basic_timer_test(){
-	int i =6;
-	tim6.init(7199,9999);//将会产生1s一次的中断
-	tim7.init(7199,9999);//将会产生1s一次的中断
+	int i =10;
+	tim6.init(7199,59999);//将会产生6s一次的中断
+	tim7.init(7199,59999);//将会产生6s一次的中断
 	tim6.start(TIM6);
 	tim6.start(TIM7);
 	while(i--){
-		if(i==3){
-			tim6.update(TIM6,7199,4999);//将会产生0.5s一次的中断
-			tim7.update(TIM7,7199,4999);
+		if(i==5){
+			tim6.update(TIM6,7199,9999,immediately);//将会产生1s一次的中断
+			tim7.update(TIM7,7199,9999,immediately);
 		}
 		xprintf_s("tim6:%d tim7:%d\r\n",tim6_int_flag,tim7_int_flag);
 		vTaskDelay(1001);//休眠1001ms
