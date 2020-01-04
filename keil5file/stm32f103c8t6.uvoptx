@@ -123,7 +123,7 @@
         <tRSysVw>1</tRSysVw>
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
-        <nTsel>1</nTsel>
+        <nTsel>11</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -134,7 +134,7 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
-        <pMon>BIN\UL2CM3.DLL</pMon>
+        <pMon>STLink\ST-LINKIII-KEIL_SWO.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
         <SetRegEntry>
@@ -615,7 +615,7 @@
 
   <Group>
     <GroupName>boot</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1471,7 +1471,7 @@
 
   <Group>
     <GroupName>os</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1694,9 +1694,57 @@
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
+<<<<<<< Updated upstream
     <File>
       <GroupNumber>7</GroupNumber>
       <FileNumber>80</FileNumber>
+=======
+  </Group>
+
+  <Group>
+    <GroupName>device</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>89</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\device\ns_test.c</PathWithFileName>
+      <FilenameWithoutPath>ns_test.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>8</GroupNumber>
+      <FileNumber>90</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\device\ns_eeprom.c</PathWithFileName>
+      <FilenameWithoutPath>ns_eeprom.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+  </Group>
+
+  <Group>
+    <GroupName>io</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>91</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1708,8 +1756,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>7</GroupNumber>
       <FileNumber>81</FileNumber>
+=======
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>92</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1721,8 +1774,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>7</GroupNumber>
       <FileNumber>82</FileNumber>
+=======
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>93</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1734,8 +1792,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>7</GroupNumber>
       <FileNumber>83</FileNumber>
+=======
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>94</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1747,8 +1810,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>7</GroupNumber>
       <FileNumber>84</FileNumber>
+=======
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>95</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1763,13 +1831,22 @@
 
   <Group>
     <GroupName>app</GroupName>
+<<<<<<< Updated upstream
     <tvExp>0</tvExp>
+=======
+    <tvExp>1</tvExp>
+>>>>>>> Stashed changes
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>85</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>96</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1781,8 +1858,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>86</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>97</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1794,8 +1876,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>87</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>98</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1807,8 +1894,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>88</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>99</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1820,8 +1912,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>89</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>100</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1833,8 +1930,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>90</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>101</FileNumber>
+>>>>>>> Stashed changes
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1846,8 +1948,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>91</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>102</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1859,8 +1966,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>92</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>103</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1872,8 +1984,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>93</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>104</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1885,8 +2002,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>94</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>105</FileNumber>
+>>>>>>> Stashed changes
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1898,8 +2020,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>8</GroupNumber>
       <FileNumber>95</FileNumber>
+=======
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>106</FileNumber>
+>>>>>>> Stashed changes
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -1910,6 +2037,35 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+<<<<<<< Updated upstream
+=======
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>107</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\app\user_exti_control.c</PathWithFileName>
+      <FilenameWithoutPath>user_exti_control.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>108</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\app\user_timer_control.c</PathWithFileName>
+      <FilenameWithoutPath>user_timer_control.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+>>>>>>> Stashed changes
   </Group>
 
   <Group>
