@@ -49,6 +49,7 @@ void fs_init(){
 				xprintf_s("not exist filesystem,create it on flash...\n");
 				r_event = f_mkfs("FLASH", 0, work, work_buff_len);
 				configASSERT(!r_event);
+				xprintf_s("   %d   ",r_event);
 				r_event = f_mount(fs, "FLASH",1);
 				configASSERT(!r_event);
 			}

@@ -60,12 +60,6 @@ int freertos_app_add(){
 							NULL,
 							3,
 							&OPEN_LED_Task_TCB );
-	xTaskCreate(	close_led,
-							"close_led_task",	
-							128,
-							NULL,
-							3,
-							&CLOSE_LED_Task_TCB );
 	xTaskCreate(	usart_heart_beat,
 							"usart_heart_beat_task",	
 							128,
@@ -132,6 +126,12 @@ int freertos_app_add(){
 							NULL,
 							2,
 							&Basic_Timer_Test_Task_TCB );
+	xTaskCreate(device_test,
+							"device_test_task",	
+							128,
+							NULL,
+							2,
+							&Device_Test_Task_TCB );
 	return 0;
 }
 //任务堆栈溢出检查，溢出后执行本函数

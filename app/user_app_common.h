@@ -16,6 +16,7 @@
 #include "user_shell_control.h"
 #include "user_exti_control.h"
 #include "user_timer_control.h"
+#include "user_device_control.h"
 typedef enum{
 	SYS_INIT_OK = (0x01<<0),
 	FLASH_INIT_OK = (0x01<<1),

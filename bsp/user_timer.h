@@ -22,6 +22,7 @@ TIM6和TIM7基本定时器
 TIM2~TIM5通用定时器
 不是所有型号的stm32都支持以上的定时器的
 */
+	 void Delayms(vu32 m);
 typedef enum{
 	immediately = 0x00,
 	postpone = 0x01,
@@ -40,7 +41,13 @@ extern const Basic_Timer_t tim7;
 extern volatile char tim6_int_flag;//每产生一次中断，值加1
 extern volatile char tim7_int_flag;
 #endif
-
+#if defined(TIM2)&&defined(TIM3)&&defined(TIM4)&&defined(TIM5)
+void TIM3_Int_Init(u16 arr,u16 psc);
+void TIM3_PWM_Init(u16 arr,u16 psc);
+void TIM3_PWM_Config(int hz,double rate);//设置pwm频率和占空比 频率HZ，占空比是小数
+void TIM3_PWM_Set_Rate(double rate);
+void TIM5_Cap_Init(u16 arr,u16 psc);
+#endif
 #ifdef __cplusplus
 }
 #endif

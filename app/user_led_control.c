@@ -9,23 +9,20 @@
 /*user Library*/
 #include "user_led.h"
 #include "user_led_control.h"
+#include "user_timer.h"
 xTaskHandle OPEN_LED_Task_TCB;
-xTaskHandle CLOSE_LED_Task_TCB;
 //使用freertos的挂起任务api
 void open_led(){
+	int i =0;
+	TIM3_PWM_Config(10*1000,0);//初始频率是10khz，占空比为0
 	while(1){
-		user_led_on();
-		vTaskSuspend(CLOSE_LED_Task_TCB);//开灯后挂起关灯任务
-		vTaskDelay(500); /* 延时500 tick，这里是500ms */
-		vTaskResume(CLOSE_LED_Task_TCB);//500ms后恢复关灯任务
-	}
-}
-
-void close_led(){
-	 while(1){
-		user_led_off();
-		vTaskSuspend(OPEN_LED_Task_TCB);//关灯后挂起开灯任务
-		vTaskDelay(500); /* 延时500 tick，这里是500ms */
-		vTaskResume(OPEN_LED_Task_TCB);//500ms后恢复开灯任务
+		for(i=1;i<=40;i++){
+			TIM3_PWM_Set_Rate(0.01*i);//最终占空比是0.4
+			vTaskDelay(20); /* 延时20tick，这里是20ms */
+		}
+		for(i=1;i<=40;i++){
+			TIM3_PWM_Set_Rate(0.01*(40-i));//最终占空比是0
+			vTaskDelay(20); /* 延时20tick，这里是20ms */
+		}
 	}
 }

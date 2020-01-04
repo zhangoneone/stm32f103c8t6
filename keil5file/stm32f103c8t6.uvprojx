@@ -458,6 +458,11 @@
               <FileType>1</FileType>
               <FilePath>..\algorithm\ns_hashtable.c</FilePath>
             </File>
+            <File>
+              <FileName>ns_fsm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_fsm.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -906,6 +911,11 @@
               <FileName>user_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\user_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\user_watchdog.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1366,6 +1376,11 @@
               <FileType>1</FileType>
               <FilePath>..\device\ns_test.c</FilePath>
             </File>
+            <File>
+              <FileName>ns_eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_eeprom.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1589,6 +1604,11 @@
               <FileName>user_timer_control.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\user_timer_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_device_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_device_control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1941,7 +1961,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>0</OneElfS>
@@ -2048,6 +2068,11 @@
               <FileName>ns_hashtable.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\algorithm\ns_hashtable.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_fsm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\algorithm\ns_fsm.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2497,6 +2522,11 @@
               <FileName>user_dma.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\bsp\user_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_watchdog.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\bsp\user_watchdog.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2978,6 +3008,68 @@
         </Group>
         <Group>
           <GroupName>device</GroupName>
+          <GroupOption>
+            <CommonProperty>
+              <UseCPPCompiler>0</UseCPPCompiler>
+              <RVCTCodeConst>0</RVCTCodeConst>
+              <RVCTZI>0</RVCTZI>
+              <RVCTOtherData>0</RVCTOtherData>
+              <ModuleSelection>0</ModuleSelection>
+              <IncludeInBuild>2</IncludeInBuild>
+              <AlwaysBuild>2</AlwaysBuild>
+              <GenerateAssemblyFile>2</GenerateAssemblyFile>
+              <AssembleAssemblyFile>2</AssembleAssemblyFile>
+              <PublicsOnly>2</PublicsOnly>
+              <StopOnExitCode>11</StopOnExitCode>
+              <CustomArgument></CustomArgument>
+              <IncludeLibraryModules></IncludeLibraryModules>
+              <ComprImg>1</ComprImg>
+            </CommonProperty>
+            <GroupArmAds>
+              <Cads>
+                <interw>2</interw>
+                <Optim>0</Optim>
+                <oTime>2</oTime>
+                <SplitLS>2</SplitLS>
+                <OneElfS>2</OneElfS>
+                <Strict>2</Strict>
+                <EnumInt>2</EnumInt>
+                <PlainCh>2</PlainCh>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <wLevel>2</wLevel>
+                <uThumb>2</uThumb>
+                <uSurpInc>2</uSurpInc>
+                <uC99>2</uC99>
+                <useXO>2</useXO>
+                <v6Lang>0</v6Lang>
+                <v6LangP>0</v6LangP>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath>..\bsp;..\os\core\include</IncludePath>
+                </VariousControls>
+              </Cads>
+              <Aads>
+                <interw>2</interw>
+                <Ropi>2</Ropi>
+                <Rwpi>2</Rwpi>
+                <thumb>2</thumb>
+                <SplitLS>2</SplitLS>
+                <SwStkChk>2</SwStkChk>
+                <NoWarn>2</NoWarn>
+                <uSurpInc>2</uSurpInc>
+                <useXO>2</useXO>
+                <VariousControls>
+                  <MiscControls></MiscControls>
+                  <Define></Define>
+                  <Undefine></Undefine>
+                  <IncludePath></IncludePath>
+                </VariousControls>
+              </Aads>
+            </GroupArmAds>
+          </GroupOption>
           <Files>
             <File>
               <FileName>ns_it_manage.c</FileName>
@@ -3018,6 +3110,11 @@
               <FileName>ns_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\device\ns_test.c</FilePath>
+            </File>
+            <File>
+              <FileName>ns_eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\device\ns_eeprom.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3242,6 +3339,11 @@
               <FileName>user_timer_control.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\user_timer_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_device_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_device_control.c</FilePath>
             </File>
           </Files>
         </Group>

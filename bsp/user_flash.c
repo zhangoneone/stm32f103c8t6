@@ -17,9 +17,9 @@ DSTATUS flash_status(BYTE pdrv){
 	if(flash_initialize(0))
 		return STA_NOINIT;
 	//初始化成功，检查写保护
-	if((FLASH_GetWriteProtectionOptionByte()&FLASH_WRProt_Pages62to127) != FLASH_WRProt_Pages62to127)
-		return STA_PROTECT;
-	else 
+	//if((FLASH_GetWriteProtectionOptionByte()&FLASH_WRProt_Pages62to127) != FLASH_WRProt_Pages62to127)
+	//	return STA_PROTECT;
+	//else 
 		return RES_OK;
 }
 
@@ -43,7 +43,7 @@ DRESULT flash_read(BYTE pdrv, BYTE* buff, DWORD sector, UINT count){
 	return RES_OK;
 }
 
-#if USE_FAT_FS ==0 
+#if (USE_FAT_FS ==0)
 DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	//stm32支持半字和全字写入
 	UINT data = 0x0;
@@ -107,8 +107,8 @@ DRESULT flash_write(BYTE pdrv, const BYTE* buff, DWORD sector, UINT count){
 	if(flash_initialize(0))
 		return RES_NOTRDY;
 	//写保护检查
-	if((FLASH_GetWriteProtectionOptionByte()&FLASH_WRProt_Pages62to127) != FLASH_WRProt_Pages62to127)
-		return RES_WRPRT;
+	//if((FLASH_GetWriteProtectionOptionByte()&FLASH_WRProt_Pages62to127) != FLASH_WRProt_Pages62to127)
+		//return RES_WRPRT;
 	//地址转换
 	sector+=USER_START_SECTOR;//设置扇区偏移
 	addr += FLASH_SECTOR_SIZE*sector;

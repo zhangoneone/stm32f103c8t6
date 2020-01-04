@@ -46,8 +46,6 @@ os使用了最低等级的异常，用来调度进程。所以在中断里处理i2c也是可行的，
 typedef int bool;
 typedef struct{
 	void(*init)(GPIO_TypeDef *SCL_GPIOx,uint16_t SCL_PIN,GPIO_TypeDef *SDA_GPIOx,uint16_t SDA_PIN);
-	bool (*start)();
-	void (*stop)();
 	bool(*sendbyte)(unsigned char SlaveAddress,unsigned char REG_Address,unsigned char REG_data);
 	unsigned char (*recebyte)(unsigned char SlaveAddress,unsigned char REG_Address);
 }Soft_I2c_t;
@@ -55,7 +53,13 @@ extern const Soft_I2c_t soft_iic;
 #endif
 
 #if(HARDWAREIIC ==1)
-
+typedef struct{
+	void(*init)();
+	bool(*sendbyte)(u8 deviceaddr,u8 addr, u8 data);
+	unsigned char (*recebyte)(u8 deviceaddr,u8 nAddr);
+}Hard_I2c_t;
+extern const Hard_I2c_t hard_iic1;
+//extern const Hard_I2c_t hard_iic2;
 #endif
 #ifdef __cplusplus
 }
