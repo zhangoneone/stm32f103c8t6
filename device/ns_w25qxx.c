@@ -219,7 +219,7 @@ void W25QXX_Erase_Chip(void)
 void W25QXX_Erase_Sector(u32 Dst_Addr)   
 {  
 	//监视falsh擦除情况,测试用   
- 	xprintf_s("fe:%x\r\n",Dst_Addr);	  
+ 	//xprintf_s("fe:%x\r\n",Dst_Addr);	  
  	Dst_Addr*=4096;
     W25QXX_Write_Enable();                  	//SET WEL 	 
     W25QXX_Wait_Busy();   
@@ -261,10 +261,12 @@ void W25QXX_WAKEUP(void)
 /*以下为fatfs提供接口函数*/
 
 DSTATUS out_flash_initialize(BYTE pdrv){
-	 return ~W25QXX_Init();
+	 W25QXX_Init();
+	return RES_OK;
 }
 DSTATUS out_flash_status(BYTE pdrv){
-	return ~W25QXX_Init();
+	 W25QXX_Init();
+	return RES_OK;
 }
 DSTATUS out_flash_read(BYTE pdrv, BYTE* buff, DWORD sector, UINT count){
 	W25QXX_Read(buff,sector*SECTOR_SIZE*8,count*SECTOR_SIZE);
