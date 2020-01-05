@@ -44,8 +44,8 @@ sram存储器boot
 #define FLASH_SECTOR_MAX_NUMBER (256+32) //设置扇区数量 后面加的32个扇区其实不可访问，只是因为flash太小和fatfs要求的多
 #elif ZET6 == 1
 #define FLASH_SECTOR_SIZE 512 //设置flash的扇区大小
-#define USER_START_SECTOR	(128) //设置用户操作的起始扇区,和代码长度有关
-#define FLASH_SECTOR_MAX_NUMBER (256+64) //设置扇区数量 后面加的32个扇区其实不可访问，只是因为flash太小和fatfs要求的多
+#define USER_START_SECTOR	(128+64) //设置用户操作的起始扇区,和代码长度有关
+#define FLASH_SECTOR_MAX_NUMBER (256+128) //设置扇区数量 后面加的32个扇区其实不可访问，只是因为flash太小和fatfs要求的多
 #else
 #error "please select product type"
 #endif

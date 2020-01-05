@@ -110,7 +110,7 @@ int freertos_app_add(){
 							&IO_TASK_PCB );
 	xTaskCreate(shell_test,
 							"shell_test_task",	
-							256,
+							512,
 							NULL,
 							2,
 							&Shell_Test_Task_TCB );

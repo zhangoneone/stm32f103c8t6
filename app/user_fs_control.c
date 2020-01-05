@@ -43,19 +43,36 @@ void fs_init(){
 											portMAX_DELAY);//等待时间	
 		if(r_event & flash_init_ok == flash_init_ok){//flash测试完成了
 			//挂载文件系统，没有则创建
+//			fs = &fatfs;
+//			r_event = f_mount(fs, "FLASH",1);
+//			if(FR_NO_FILESYSTEM == r_event){
+//				xprintf_s("not exist filesystem,create it on flash...\n");
+//				r_event = f_mkfs("FLASH", 0, work, work_buff_len);
+//				configASSERT(!r_event);
+//				xprintf_s("   %d   ",r_event);
+//				r_event = f_mount(fs, "FLASH",1);
+//				configASSERT(!r_event);
+//			}
+//			//其他故障，assert
+//			configASSERT(!r_event);
+//			r_event = f_getfree("FLASH",&clust_size,&fs);
+//			configASSERT(!r_event);
+//			xprintf_s("fs mount success,size:%d clust\n",clust_size);
+			
+			//挂载文件系统，没有则创建
 			fs = &fatfs;
-			r_event = f_mount(fs, "FLASH",1);
+			r_event = f_mount(fs, "OUT_FLASH",1);
 			if(FR_NO_FILESYSTEM == r_event){
 				xprintf_s("not exist filesystem,create it on flash...\n");
-				r_event = f_mkfs("FLASH", 0, work, work_buff_len);
+				r_event = f_mkfs("OUT_FLASH", 0, work, work_buff_len);
 				configASSERT(!r_event);
 				xprintf_s("   %d   ",r_event);
-				r_event = f_mount(fs, "FLASH",1);
+				r_event = f_mount(fs, "OUT_FLASH",1);
 				configASSERT(!r_event);
 			}
 			//其他故障，assert
 			configASSERT(!r_event);
-			r_event = f_getfree("FLASH",&clust_size,&fs);
+			r_event = f_getfree("OUT_FLASH",&clust_size,&fs);
 			configASSERT(!r_event);
 			xprintf_s("fs mount success,size:%d clust\n",clust_size);
 		}

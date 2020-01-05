@@ -14,9 +14,16 @@
 #define MMC_disk_read(buff,sector,count) flash_driver.read(0,buff,sector,count)
 #define MMC_disk_write(buff,sector,count) flash_driver.write(0,buff,sector,count)
 #define MMC_disk_ioctl(pdrv,cmd,buff) flash_driver.ioctl(0,cmd,buff)
+#include "ns_w25qxx.h"
+extern const Out_Flash_t out_flash;
+#define OUTFLASH_disk_status() out_flash.status(1)
+#define OUTFLASH_disk_initialize() out_flash.initialize(1)
+#define OUTFLASH_disk_read(buff,sector,count) out_flash.read(1,buff,sector,count)
+#define OUTFLASH_disk_write(buff,sector,count) out_flash.write(1,buff,sector,count)
+#define OUTFLASH_disk_ioctl(pdrv,cmd,buff) out_flash.ioctl(1,cmd,buff)
 /* Definitions of physical drive number for each drive */
-#define DEV_MMC		0	/* Example: Map MMC/SD card to physical drive 0 */
-#define DEV_RAM		1	/* Example: Map Ramdisk to physical drive 1 */
+#define DEV_MMC		1	/* Example: Map MMC/SD card to physical drive 0 */
+#define DEV_OUT_FLASH		0	/* Example: Map Ramdisk to physical drive 1 */
 #define DEV_USB		2	/* Example: Map USB MSD to physical drive 2 */
 
 
@@ -32,11 +39,11 @@ DSTATUS disk_status (
 	int result;
 
 	switch (pdrv) {
-	case DEV_RAM :
-		//result = RAM_disk_status();
+	case DEV_OUT_FLASH :
+		result = OUTFLASH_disk_status();
 
 		// translate the reslut code here
-
+		stat = result;
 		return stat;
 
 	case DEV_MMC :
@@ -70,11 +77,11 @@ DSTATUS disk_initialize (
 	int result;
 
 	switch (pdrv) {
-	case DEV_RAM :
-		//result = RAM_disk_initialize();
+	case DEV_OUT_FLASH :
+		result = OUTFLASH_disk_initialize();
 
 		// translate the reslut code here
-
+		stat = result;
 		return stat;
 
 	case DEV_MMC :
@@ -111,13 +118,13 @@ DRESULT disk_read (
 	int result;
 
 	switch (pdrv) {
-	case DEV_RAM :
+	case DEV_OUT_FLASH :
 		// translate the arguments here
 
-		//result = RAM_disk_read(buff, sector, count);
+		result = OUTFLASH_disk_read(buff, sector, count);
 
 		// translate the reslut code here
-
+		res = result;
 		return res;
 
 	case DEV_MMC :
@@ -161,13 +168,13 @@ DRESULT disk_write (
 	int result;
 
 	switch (pdrv) {
-	case DEV_RAM :
+	case DEV_OUT_FLASH :
 		// translate the arguments here
 
-		//result = RAM_disk_write(buff, sector, count);
+		result = OUTFLASH_disk_write(buff, sector, count);
 
 		// translate the reslut code here
-		
+		res = result;
 		return res;
 
 	case DEV_MMC :
@@ -209,10 +216,10 @@ DRESULT disk_ioctl (
 	int result;
 
 	switch (pdrv) {
-	case DEV_RAM :
-
+	case DEV_OUT_FLASH :
+			result = OUTFLASH_disk_ioctl(pdrv,cmd,buff);
 		// Process of the command for the RAM drive
-
+			res = result;
 		return res;
 
 	case DEV_MMC :

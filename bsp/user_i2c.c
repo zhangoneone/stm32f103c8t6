@@ -270,9 +270,6 @@ void I2C1_Init(){
 	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
 	I2C_InitStructure.I2C_ClockSpeed = 400000;
 	I2C_Init(I2C1, &I2C_InitStructure);
-	I2C_Cmd(I2C1, ENABLE);
-	//I2C中断配置
-	I2C_ITConfig(I2C1,I2C_IT_BUF|I2C_IT_BUF|I2C_IT_ERR, ENABLE);
 	//NVIC配置
   NVIC_InitStructure.NVIC_IRQChannel = I2C1_EV_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级1
@@ -285,6 +282,9 @@ void I2C1_Init(){
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;		//子优先级1
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
+		//I2C中断配置
+	I2C_ITConfig(I2C1,I2C_IT_BUF|I2C_IT_BUF|I2C_IT_ERR, ENABLE);
+	I2C_Cmd(I2C1, ENABLE);
 }
 
 //事件中断
