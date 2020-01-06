@@ -319,7 +319,7 @@ void sys_check_core_locking(void);
 #define LWIP_ASSERT_CORE_LOCKED()  sys_check_core_locking()
 void sys_mark_tcpip_thread(void);
 #define LWIP_MARK_TCPIP_THREAD()   sys_mark_tcpip_thread()
-
+#define TCPIP_MBOX_SIZE	20 //消息队列长度
 #if !defined(LWIP_TCPIP_CORE_LOCKING) || LWIP_TCPIP_CORE_LOCKING /* default is 1 */
 void sys_lock_tcpip_core(void);
 #define LOCK_TCPIP_CORE()          sys_lock_tcpip_core()

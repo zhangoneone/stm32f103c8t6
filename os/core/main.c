@@ -12,13 +12,14 @@
 #include "user_crc.h"
 #include "user_dma.h"
 #include "user_timer.h"
+#include "user_fsmc.h"
 static void hardware_init(){
-  //因为还没有加载os，不能使用xprintf_s，使用以下函数，指定out流
+	//因为还没有加载os，不能使用xprintf_s，使用以下函数，指定out流
 	extern void xfprintf(void(*func)(unsigned char),	const char*	fmt,...);
 	USART1_Config(115200);
 	USART2_Config(115200);
 	USART3_Config(115200);
-	user_led_init();
+	//user_led_init();
 	user_crc_init();
 	xfprintf(usart1_obj.u_putc,"bsp setup!\r\n");
 }

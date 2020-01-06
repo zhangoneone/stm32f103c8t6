@@ -43,7 +43,7 @@ int software_init(){
 	
 	//初始化lwip
 	//lwip_init();
-	//tcpip_init(net_init_done_callback,0);
+	tcpip_init(net_init_done_callback,0);
 	freertos_app_add();
 }
 //添加app,创建任务						
@@ -112,25 +112,25 @@ int freertos_app_add(){
 							"shell_test_task",	
 							512,
 							NULL,
-							2,
+							3,
 							&Shell_Test_Task_TCB );
 	xTaskCreate(exti_test,
 							"exti_test_task",	
 							128,
 							NULL,
-							2,
+							3,
 							&Exti_Test_Task_TCB );
 	xTaskCreate(basic_timer_test,
 							"basic_timer_test_task",	
 							128,
 							NULL,
-							2,
+							3,
 							&Basic_Timer_Test_Task_TCB );
 	xTaskCreate(device_test,
 							"device_test_task",	
-							128,
+							256,
 							NULL,
-							2,
+							3,
 							&Device_Test_Task_TCB );
 	return 0;
 }

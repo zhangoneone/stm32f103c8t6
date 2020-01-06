@@ -353,7 +353,7 @@ void I2C1_Write(u8 deviceaddr,u8 addr, u8 data){
 u8 I2C1_Read(u8 deviceaddr,u8 nAddr){
 	I2C_AcknowledgeConfig(I2C1,ENABLE); //
 	I2C_GenerateSTART(I2C1,ENABLE); //
-	while(!I2C_CheckEvent(I2C1,I2C_EVENT_MASTER_MODE_SELECT)){;} //EV5
+	while(!I2C_CheckEvent(I2C1,I2C_EVENT_MASTER_MODE_SELECT)){;} //EV5 ’‚¿Ôø®À¿π˝
 	I2C_Send7bitAddress(I2C1,deviceaddr,I2C_Direction_Transmitter); //
 	while(!I2C_CheckEvent(I2C1,I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)){;}//EV6
 	I2C_SendData(I2C1,nAddr);//

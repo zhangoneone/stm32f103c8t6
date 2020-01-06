@@ -1,8 +1,8 @@
-;******************** (C) COPYRIGHT 2010 STMicroelectronics ********************
+;******************** (C) COPYRIGHT 2011 STMicroelectronics ********************
 ;* File Name          : startup_stm32f10x_hd.s
 ;* Author             : MCD Application Team
-;* Version            : V3.4.0
-;* Date               : 10/15/2010
+;* Version            : V3.5.0
+;* Date               : 11-March-2011
 ;* Description        : STM32F10x High Density Devices vector table for MDK-ARM 
 ;*                      toolchain. 
 ;*                      This module performs:
@@ -36,7 +36,7 @@ Stack_Size      EQU     0x00000400
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size
-__initial_sp
+__initial_sp  EQU 0x20000000 + Stack_Size
                                                   
 ; <h> Heap Configuration
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
@@ -163,7 +163,7 @@ NMI_Handler     PROC
 HardFault_Handler\
                 PROC
                 EXPORT  HardFault_Handler          [WEAK]
-                BX      LR
+                B       .
                 ENDP
 MemManage_Handler\
                 PROC
@@ -355,4 +355,4 @@ __user_initial_stackheap
 
                  END
 
-;******************* (C) COPYRIGHT 2010 STMicroelectronics *****END OF FILE*****
+;******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE*****
