@@ -140,7 +140,7 @@
 #define LWIP_DEBUG
 #undef LWIP_DEBUG
 #endif
-
+#define LWIP_DEBUG
 #ifdef LWIP_DEBUG
 #define LWIP_DEBUGF(debug, message) do { \
                                if ( \

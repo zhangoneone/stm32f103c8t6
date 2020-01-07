@@ -215,6 +215,7 @@ void EXTI4_IRQHandler(void){
 		 }
 	}	
 }
+/*
 void EXTI9_5_IRQHandler(void){
 	int i = -1;
   if(EXTI_GetITStatus(EXTI_Line5) != RESET){  //EXTI5ÖÐ¶Ï
@@ -253,6 +254,7 @@ void EXTI9_5_IRQHandler(void){
 		 }
 	}
 }
+*/
 void EXTI15_10_IRQHandler(void){
 	int i = -1;
   if(EXTI_GetITStatus(EXTI_Line10) != RESET){  //EXTI10ÖÐ¶Ï

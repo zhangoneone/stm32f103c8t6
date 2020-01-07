@@ -41,14 +41,11 @@
 #endif
 
 #ifdef DEBUG
+extern void xprintf_s(const char*	fmt,...);
+#define vAssertCalled(char,int) xprintf_s("Error:%s,%d\r\n",char,int)
+#define configASSERT(x) if((x)==0) vAssertCalled(__FILE__,__LINE__)
 extern void __error__(char *pcFilename, unsigned long ulLine);
-#define LWIP_PLATFORM_ASSERT(expr)      \
-{                                       \
-    if(!(expr))                         \
-    {                                   \
-        __error__(__FILE__, __LINE__);  \
-    }                                   \
-}
+#define LWIP_PLATFORM_ASSERT(expr)    configASSERT(expr)  
 #else
 #define LWIP_PLATFORM_ASSERT(expr)
 #endif

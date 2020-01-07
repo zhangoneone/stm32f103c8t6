@@ -118,7 +118,7 @@
 
 /* MEM_SIZE: the size of the heap memory. If the application will send
 a lot of data that needs to be copied, this should be set high. */
-#define MEM_SIZE               0
+#define MEM_SIZE               32*1024
 
 /* MEMP_NUM_PBUF: the number of memp struct pbufs. If the application
    sends a lot of data out of ROM (or other static memory), this
@@ -144,7 +144,7 @@ a lot of data that needs to be copied, this should be set high. */
 #define MEMP_NUM_SYS_TIMEOUT    17
 
 
-#define TCPIP_THREAD_STACKSIZE	512
+#define TCPIP_THREAD_STACKSIZE	1024
 /* The following four are used only with the sequential API and can be
    set to 0 if the application only will use the raw API. */
 /* MEMP_NUM_NETBUF: the number of struct netbufs. */

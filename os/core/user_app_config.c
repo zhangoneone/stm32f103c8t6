@@ -43,7 +43,7 @@ int software_init(){
 	
 	//初始化lwip
 	//lwip_init();
-	tcpip_init(net_init_done_callback,0);
+	//tcpip_init(net_init_done_callback,0);
 	freertos_app_add();
 }
 //添加app,创建任务						
@@ -128,7 +128,7 @@ int freertos_app_add(){
 							&Basic_Timer_Test_Task_TCB );
 	xTaskCreate(device_test,
 							"device_test_task",	
-							256,
+							512,
 							NULL,
 							3,
 							&Device_Test_Task_TCB );

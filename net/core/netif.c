@@ -136,8 +136,44 @@ static err_t netif_loop_output_ipv4(struct netif *netif, struct pbuf *p, const i
 #if LWIP_IPV6
 static err_t netif_loop_output_ipv6(struct netif *netif, struct pbuf *p, const ip6_addr_t *addr);
 #endif
+/*添加dm9000的网卡接口*/
+struct netif dm9000_netif;
+signed char DM9000_SendPacket_lwipInterface(void *netif,struct pbuf*p,const void *dest);
+unsigned char DM9000_Init(void);
+static err_t
+netif_dm9000if_init(struct netif *netif)
+{
+  LWIP_ASSERT("netif_dm9000if_init: invalid netif", netif != NULL);
+	dhcp_start(netif);	//开启DHCP服务
+  /* initialize the snmp variables and counters inside the struct netif
+   * ifSpeed: no assumption can be made!
+   */
+  MIB2_INIT_NETIF(netif, snmp_ifType_ethernet_csmacd, 10*1024*1024*8);
 
-
+  netif->name[0] = 'd';
+  netif->name[1] = 'm';
+	netif->mtu=1500;
+	netif->hwaddr_len=6;
+	netif->hwaddr[0]= 'D';
+	netif->hwaddr[1]= 'D';
+	netif->hwaddr[2]= 'D';
+	netif->hwaddr[3]= 'D';
+	netif->hwaddr[4]= 'D';
+	netif->hwaddr[5]= 'D';
+	netif->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_LINK_UP;
+#if LWIP_IPV4
+  netif->output = DM9000_SendPacket_lwipInterface;
+#endif
+#if LWIP_IPV6
+  netif->output_ip6 = netif_loop_output_ipv6;
+#endif
+#if LWIP_LOOPIF_MULTICAST
+  netif_set_flags(netif, NETIF_FLAG_IGMP);
+#endif
+	DM9000_Init();
+  NETIF_SET_CHECKSUM_CTRL(netif, NETIF_CHECKSUM_DISABLE_ALL);
+  return ERR_OK;
+}
 static struct netif loop_netif;
 
 /**
@@ -176,6 +212,8 @@ netif_loopif_init(struct netif *netif)
 void
 netif_init(void)
 {
+	//添加dm9000
+  ip4_addr_t dm9000_ipaddr, dm9000_netmask, dm9000_gw;
 #if LWIP_HAVE_LOOPIF
 #if LWIP_IPV4
 #define LOOPIF_ADDRINIT &loop_ipaddr, &loop_netmask, &loop_gw,
@@ -202,6 +240,14 @@ netif_init(void)
   netif_set_up(&loop_netif);
 
 #endif /* LWIP_HAVE_LOOPIF */
+  IP4_ADDR(&dm9000_gw, 192, 168, 1, 1);
+  IP4_ADDR(&dm9000_ipaddr, 192, 168, 1, 130);
+  IP4_ADDR(&dm9000_netmask, 255, 255, 255, 0);
+  netif_add(&dm9000_netif,&dm9000_ipaddr,&dm9000_netmask,&dm9000_gw,NULL, netif_dm9000if_init, tcpip_input);
+
+  netif_set_link_up(&dm9000_netif);
+  netif_set_up(&dm9000_netif);
+	netif_set_default(&dm9000_netif);
 }
 
 /**
