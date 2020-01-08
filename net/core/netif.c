@@ -139,6 +139,7 @@ static err_t netif_loop_output_ipv6(struct netif *netif, struct pbuf *p, const i
 /*添加dm9000的网卡接口*/
 struct netif dm9000_netif;
 signed char DM9000_SendPacket_lwipInterface(void *netif,struct pbuf*p,const void *dest);
+signed char DM9000_SendPacket_lwipLinkOutInterface(void *netif,struct pbuf*p);
 unsigned char DM9000_Init(void);
 static err_t
 netif_dm9000if_init(struct netif *netif)
@@ -160,9 +161,10 @@ netif_dm9000if_init(struct netif *netif)
 	netif->hwaddr[3]= 'D';
 	netif->hwaddr[4]= 'D';
 	netif->hwaddr[5]= 'D';
-	netif->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_LINK_UP;
+	//netif->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP | NETIF_FLAG_LINK_UP;
 #if LWIP_IPV4
   netif->output = DM9000_SendPacket_lwipInterface;
+	netif->linkoutput = DM9000_SendPacket_lwipLinkOutInterface;
 #endif
 #if LWIP_IPV6
   netif->output_ip6 = netif_loop_output_ipv6;

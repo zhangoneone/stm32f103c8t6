@@ -372,6 +372,10 @@ signed char DM9000_SendPacket_lwipInterface(void *netif,struct pbuf*p,const void
 	DM9000_SendPacket(p);
 	return 0;
 }
+signed char DM9000_SendPacket_lwipLinkOutInterface(void *netif,struct pbuf*p){
+	DM9000_SendPacket(p);
+	return 0;
+}
 //DM9000接收数据包
 //接收到的数据包存放在DM9000的RX FIFO中，地址为0X0C00~0X3FFF
 //接收到的数据包的前四个字节并不是真实的数据，而是有特定含义的
@@ -462,8 +466,7 @@ __error_retry:
 	return (struct pbuf*)p; 
 }
 //中断处理函数
-//SemaphoreHandle_t dm9000_receive_done = NULL;
-volatile int dm9000_receive_done;
+volatile int dm9000_receive_done = 0;
 void DMA9000_ISRHandler(void)
 {
 	u16 int_status;
@@ -471,12 +474,12 @@ void DMA9000_ISRHandler(void)
 	last_io = DM9000->REG;
 	int_status=DM9000_ReadReg(DM9000_ISR); 
 	DM9000_WriteReg(DM9000_ISR,int_status);				//清除中断标志位，DM9000的ISR寄存器的bit0~bit5写1清零
-	if(int_status & ISR_ROS)xprintf_s("overflow \r\n");
-    if(int_status & ISR_ROOS)xprintf_s("overflow counter overflow \r\n");	
+	if(int_status & ISR_ROS);//xprintf_s("overflow \r\n");
+    if(int_status & ISR_ROOS);//xprintf_s("overflow counter overflow \r\n");	
 	if(int_status & ISR_PRS)		//接收中断
 	{  
-		dm9000_receive_done = 1;
-		//xSemaphoreGiveFromISR(dm9000_receive_done,NULL);
+		dm9000_receive_done=1;
+		//xSemaphoreGiveFromISR(dm9000_receive_done,NULL);//这里使用信号量产生了一些问题，说明对freertos的信号量机制了解还不够
  		//接收完成中断，用户自行添加所需代码
 	} 
 	if(int_status&ISR_PTS)			//发送中断

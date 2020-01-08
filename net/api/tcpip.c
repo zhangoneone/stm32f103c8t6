@@ -593,21 +593,20 @@ tcpip_callbackmsg_trycallback_fromisr(struct tcpip_callback_msg *msg)
 #include "FreeRTOS.h"
 #include "semphr.h"
 struct pbuf *DM9000_Receive_Packet(void);
-//extern SemaphoreHandle_t dm9000_receive_done ;
-extern struct netif dm9000_netif;
 extern volatile int dm9000_receive_done;
+extern struct netif dm9000_netif;
 //static sys_mbox_t tcpip_mbox;
 void receive_thread(void *args){
 	struct tcpip_msg *msg = (struct tcpip_msg *)pvPortMalloc(sizeof(struct tcpip_msg));
-	//dm9000_receive_done = xSemaphoreCreateBinary();
+	
 	for(;;){
 		if(dm9000_receive_done){
 			//取数据，解锁信箱
 			msg->msg.inp.p = DM9000_Receive_Packet();
-			xprintf_s("%s\r\n",msg->msg.inp.p);
+			xprintf_s("network receive:%s\r\n",msg->msg.inp.p);
 			msg->msg.inp.netif=&dm9000_netif;
 			sys_mbox_post(&tcpip_mbox,msg);
-			dm9000_receive_done = 0;
+			dm9000_receive_done=0;
 		}
 	}
 }

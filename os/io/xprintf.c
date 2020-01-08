@@ -178,23 +178,33 @@ void xprintf (			/* Put a formatted string to the default device */
 	xvprintf(fmt, arp);
 	va_end(arp);
 }
-
+__asm uint32_t Get_Control( void )
+{
+	mrs r0, control
+	bx r14
+}
 static SemaphoreHandle_t secure_print_sem = NULL;//串口空闲互斥量
 void xprintf_s(
 	const char*	fmt,	/* Pointer to the format string */
 	...					/* Optional arguments */
 	)
 {
-	va_list arp;
+		va_list arp;
+	 int isPsp = 0;
+	if(Get_Control()&0x02)isPsp=1;
+	else isPsp=0;
 	if(NULL == secure_print_sem){
 		secure_print_sem = (SemaphoreHandle_t)0x1;//第一时间让变量非NULL，以免多个task进入
 		//串口资源互斥量初始化
 		secure_print_sem = xSemaphoreCreateBinary();
-		xSemaphoreGive(secure_print_sem);
+		if(isPsp)xSemaphoreGive(secure_print_sem);
+		else xSemaphoreGiveFromISR(secure_print_sem,NULL);
 	}
 	//wait 循环等待，每次等不到则task休眠1tick。
-	while(xSemaphoreTake(secure_print_sem,1) != pdTRUE );
-	
+	if(isPsp)
+		while(xSemaphoreTake(secure_print_sem,1) != pdTRUE );
+	else
+		while(xSemaphoreTakeFromISR(secure_print_sem,NULL) != pdTRUE );
 	va_start(arp, fmt);
 	xvprintf(fmt, arp);
 	va_end(arp);

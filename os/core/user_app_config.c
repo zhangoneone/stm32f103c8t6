@@ -25,7 +25,6 @@ void net_init_done_callback(void *args){
 	xprintf_s("lwip init success\r\n");
 }
 
-
 //初始化参数和内核参数，并且添加app
 int software_init(){
 	//设置io流载体
@@ -132,6 +131,12 @@ int freertos_app_add(){
 							NULL,
 							3,
 							&Device_Test_Task_TCB );
+	xTaskCreate(tcp_server,
+							"tcp_server_task",	
+							256,
+							NULL,
+							3,
+							&Tcp_Server_Task_TCB );
 	return 0;
 }
 //任务堆栈溢出检查，溢出后执行本函数

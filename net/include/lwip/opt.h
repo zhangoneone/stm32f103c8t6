@@ -1763,7 +1763,7 @@
  * sys_thread_new() when the thread is created.
  */
 #if !defined TCPIP_THREAD_PRIO || defined __DOXYGEN__
-#define TCPIP_THREAD_PRIO               2
+#define TCPIP_THREAD_PRIO               3
 #endif
 
 /**
