@@ -10,10 +10,6 @@
 #include "user_usart.h"
 //freertos app head file
 #include "user_app_common.h"
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 int freertos_app_add();
 
 const sys_base_event_t sys_init_ok = SYS_INIT_OK;//枚举
@@ -21,11 +17,6 @@ const sys_base_event_t flash_init_ok = FLASH_INIT_OK;//枚举
 const sys_base_event_t fs_mount_ok = FS_MOUNT_OK;//枚举
 const sys_base_event_t fs_file_operate_ok = FS_FILE_OPERATE_OK;//枚举
 const sys_base_event_t io_operate_ok = IO_OPERATE_OK;//枚举
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
 //初始化参数和内核参数，并且添加app
 int software_init(){
 	//设置io流载体
@@ -39,10 +30,6 @@ int software_init(){
 	serial_sem = xSemaphoreCreateBinary();
 	//post
 	xSemaphoreGive(serial_sem);
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 	freertos_app_add();
 }
 //添加app,创建任务						
@@ -115,28 +102,9 @@ int freertos_app_add(){
 							&IO_TASK_PCB );
 	xTaskCreate(shell_test,
 							"shell_test_task",	
-<<<<<<< Updated upstream
 							128,
 							NULL,
 							2,
 							&Shell_Test_Task_TCB );
-=======
-							256,
-							NULL,
-							2,
-							&Shell_Test_Task_TCB );
-	xTaskCreate(exti_test,
-							"exti_test_task",	
-							64,
-							NULL,
-							2,
-							&Exti_Test_Task_TCB );
-	xTaskCreate(basic_timer_test,
-							"basic_timer_test_task",	
-							64,
-							NULL,
-							2,
-							&Basic_Timer_Test_Task_TCB );
->>>>>>> Stashed changes
 	return 0;
 }

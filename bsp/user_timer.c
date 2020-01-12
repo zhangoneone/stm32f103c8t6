@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
 #include "user_timer.h"
-=======
-#include "user_timer.h"
-
+#include "stm32f10x_tim.h"
 //定时器通用函数区
 #ifndef COMMON_INIT
 /**********************************************************
@@ -290,4 +287,3 @@ void TIM4_IRQHandler(void){
        for (i=0; i<50000; i++);
 }
 #endif
->>>>>>> Stashed changes

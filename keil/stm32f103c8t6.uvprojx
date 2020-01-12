@@ -176,7 +176,7 @@
             <Capability>1</Capability>
             <DriverSelection>4103</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
+          <bUseTDR>1</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
@@ -368,7 +368,7 @@
             <v6LangP>0</v6LangP>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER, STM32F10X_HD</Define>
+              <Define>USE_STDPERIPH_DRIVER, STM32F10X_MD</Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
             </VariousControls>
@@ -1124,9 +1124,9 @@
           </Files>
         </Group>
         <Group>
-<<<<<<< Updated upstream
           <GroupName>network</GroupName>
-=======
+        </Group>
+        <Group>
           <GroupName>net</GroupName>
         </Group>
         <Group>
@@ -1193,19 +1193,6 @@
               </Aads>
             </GroupArmAds>
           </GroupOption>
-          <Files>
-            <File>
-              <FileName>ns_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\device\ns_test.c</FilePath>
-            </File>
-            <File>
-              <FileName>ns_eeprom.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\device\ns_eeprom.c</FilePath>
-            </File>
-          </Files>
->>>>>>> Stashed changes
         </Group>
         <Group>
           <GroupName>io</GroupName>
@@ -1419,19 +1406,6 @@
               <FileType>8</FileType>
               <FilePath>..\app\user_cplus_control.cpp</FilePath>
             </File>
-<<<<<<< Updated upstream
-=======
-            <File>
-              <FileName>user_exti_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_exti_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_timer_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_timer_control.c</FilePath>
-            </File>
->>>>>>> Stashed changes
           </Files>
         </Group>
         <Group>
@@ -2557,9 +2531,9 @@
           </Files>
         </Group>
         <Group>
-<<<<<<< Updated upstream
           <GroupName>network</GroupName>
-=======
+        </Group>
+        <Group>
           <GroupName>net</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -2688,19 +2662,6 @@
               </Aads>
             </GroupArmAds>
           </GroupOption>
-          <Files>
-            <File>
-              <FileName>ns_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\device\ns_test.c</FilePath>
-            </File>
-            <File>
-              <FileName>ns_eeprom.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\device\ns_eeprom.c</FilePath>
-            </File>
-          </Files>
->>>>>>> Stashed changes
         </Group>
         <Group>
           <GroupName>io</GroupName>
@@ -2914,19 +2875,6 @@
               <FileType>8</FileType>
               <FilePath>..\app\user_cplus_control.cpp</FilePath>
             </File>
-<<<<<<< Updated upstream
-=======
-            <File>
-              <FileName>user_exti_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_exti_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_timer_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_timer_control.c</FilePath>
-            </File>
->>>>>>> Stashed changes
           </Files>
         </Group>
         <Group>

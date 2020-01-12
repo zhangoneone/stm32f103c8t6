@@ -16,6 +16,8 @@ TIM6和TIM7基本定时器
 TIM2~TIM5通用定时器
 不是所有型号的stm32都支持以上的定时器的
 */
-
+typedef enum{
+	immediately=0,
+}Update_option_t;
 
 #endif
