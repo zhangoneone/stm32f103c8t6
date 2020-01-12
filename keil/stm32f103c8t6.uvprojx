@@ -1336,6 +1336,21 @@
               <FileType>1</FileType>
               <FilePath>..\net\core\ipv4\ip4_frag.c</FilePath>
             </File>
+            <File>
+              <FileName>api_msg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\net\api\api_msg.c</FilePath>
+            </File>
+            <File>
+              <FileName>api_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\net\api\api_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>netbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\net\api\netbuf.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1624,6 +1639,11 @@
               <FileName>user_cplus_control.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\app\user_cplus_control.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>user_tcpip_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_tcpip_control.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3020,6 +3040,21 @@
               <FileType>1</FileType>
               <FilePath>..\net\core\ipv4\ip4_frag.c</FilePath>
             </File>
+            <File>
+              <FileName>api_msg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\net\api\api_msg.c</FilePath>
+            </File>
+            <File>
+              <FileName>api_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\net\api\api_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>netbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\net\api\netbuf.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3278,7 +3313,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\os\core;..\os\core\include;..\bsp;..\stdriver;..\os\fs\fat;..\os\io;..\boot</IncludePath>
+                  <IncludePath>..\os\core;..\os\core\include;..\bsp;..\stdriver;..\os\fs\fat;..\os\io;..\boot;..\net\include\lwip;..\net\include\lwip\arch;..\net\include</IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -3370,6 +3405,11 @@
               <FileName>user_cplus_control.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\app\user_cplus_control.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>user_tcpip_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\user_tcpip_control.c</FilePath>
             </File>
           </Files>
         </Group>

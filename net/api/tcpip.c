@@ -603,7 +603,7 @@ void receive_thread(void *args){
 		if(dm9000_receive_done){
 			//取数据，解锁信箱
 			msg->msg.inp.p = DM9000_Receive_Packet();
-			xprintf_s("network receive:%s\r\n",msg->msg.inp.p);
+			//xprintf_s("network receive:%s\r\n",msg->msg.inp.p);
 			msg->msg.inp.netif=&dm9000_netif;
 			sys_mbox_post(&tcpip_mbox,msg);
 			dm9000_receive_done=0;
