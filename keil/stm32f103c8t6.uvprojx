@@ -911,7 +911,7 @@
                   <MiscControls></MiscControls>
                   <Define></Define>
                   <Undefine></Undefine>
-                  <IncludePath>..\bsp;..\stdriver;..\boot;..\os\core\include;..\os\io</IncludePath>
+                  <IncludePath>..\bsp;..\stdriver;..\boot;..\os\oneos\include;..\os\io</IncludePath>
                 </VariousControls>
               </Cads>
               <Aads>
@@ -935,104 +935,29 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>croutine.c</FileName>
+              <FileName>arch.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\croutine.c</FilePath>
-            </File>
-            <File>
-              <FileName>event_groups.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\event_groups.c</FilePath>
-            </File>
-            <File>
-              <FileName>heap_4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\heap_4.c</FilePath>
+              <FilePath>..\os\oneos\arch\arm-cortex-m3\arch.c</FilePath>
             </File>
             <File>
               <FileName>list.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\list.c</FilePath>
+              <FilePath>..\os\oneos\core\list.c</FilePath>
             </File>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>mem.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\main.c</FilePath>
+              <FilePath>..\os\oneos\core\mem.c</FilePath>
             </File>
             <File>
-              <FileName>port.c</FileName>
+              <FileName>task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\port.c</FilePath>
+              <FilePath>..\os\oneos\core\task.c</FilePath>
             </File>
             <File>
-              <FileName>queue.c</FileName>
+              <FileName>timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\queue.c</FilePath>
-            </File>
-            <File>
-              <FileName>stream_buffer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\stream_buffer.c</FilePath>
-            </File>
-            <File>
-              <FileName>tasks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\tasks.c</FilePath>
-            </File>
-            <File>
-              <FileName>timers.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\timers.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_app_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\user_app_config.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>2</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath>..\app</IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
+              <FilePath>..\os\oneos\core\timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1124,77 +1049,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>network</GroupName>
-        </Group>
-        <Group>
-          <GroupName>net</GroupName>
-        </Group>
-        <Group>
-          <GroupName>device</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>2</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>2</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath>..\os\core\include;..\bsp</IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
-        </Group>
-        <Group>
           <GroupName>io</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -1264,26 +1118,6 @@
               <FileType>1</FileType>
               <FilePath>..\os\io\xprintf.c</FilePath>
             </File>
-            <File>
-              <FileName>ansi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\ansi.c</FilePath>
-            </File>
-            <File>
-              <FileName>ansi_port.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\ansi_port.c</FilePath>
-            </File>
-            <File>
-              <FileName>nr_micro_shell.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\nr_micro_shell.c</FilePath>
-            </File>
-            <File>
-              <FileName>nr_micro_shell_commands.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\nr_micro_shell_commands.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1350,63 +1184,6 @@
               </Aads>
             </GroupArmAds>
           </GroupOption>
-          <Files>
-            <File>
-              <FileName>user_led_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_led_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_usart_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_usart_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_pwr_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_pwr_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_crc_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_crc_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_rcc_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_rcc_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_app_common.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\app\user_app_common.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_flash_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_flash_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_fs_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_fs_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_io_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_io_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_shell_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_shell_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_cplus_control.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\app\user_cplus_control.cpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
@@ -2342,104 +2119,29 @@
           </GroupOption>
           <Files>
             <File>
-              <FileName>croutine.c</FileName>
+              <FileName>arch.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\croutine.c</FilePath>
-            </File>
-            <File>
-              <FileName>event_groups.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\event_groups.c</FilePath>
-            </File>
-            <File>
-              <FileName>heap_4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\heap_4.c</FilePath>
+              <FilePath>..\os\oneos\arch\arm-cortex-m3\arch.c</FilePath>
             </File>
             <File>
               <FileName>list.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\list.c</FilePath>
+              <FilePath>..\os\oneos\core\list.c</FilePath>
             </File>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>mem.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\main.c</FilePath>
+              <FilePath>..\os\oneos\core\mem.c</FilePath>
             </File>
             <File>
-              <FileName>port.c</FileName>
+              <FileName>task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\port.c</FilePath>
+              <FilePath>..\os\oneos\core\task.c</FilePath>
             </File>
             <File>
-              <FileName>queue.c</FileName>
+              <FileName>timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\os\core\queue.c</FilePath>
-            </File>
-            <File>
-              <FileName>stream_buffer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\stream_buffer.c</FilePath>
-            </File>
-            <File>
-              <FileName>tasks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\tasks.c</FilePath>
-            </File>
-            <File>
-              <FileName>timers.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\timers.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_app_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\core\user_app_config.c</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>2</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <v6Lang>0</v6Lang>
-                    <v6LangP>0</v6LangP>
-                    <VariousControls>
-                      <MiscControls></MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath>..\app</IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
+              <FilePath>..\os\oneos\core\timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2531,139 +2233,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>network</GroupName>
-        </Group>
-        <Group>
-          <GroupName>net</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>2</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>2</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath>..\net\include;..\net\include\arch;..\os\core;..\os\core\include;..\net\include\lwip;..\net\include\netif;..\net\include\lwip\arch</IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
-        </Group>
-        <Group>
-          <GroupName>device</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>2</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>2</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath>..\bsp;..\os\core\include</IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
-        </Group>
-        <Group>
           <GroupName>io</GroupName>
           <GroupOption>
             <CommonProperty>
@@ -2733,26 +2302,6 @@
               <FileType>1</FileType>
               <FilePath>..\os\io\xprintf.c</FilePath>
             </File>
-            <File>
-              <FileName>ansi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\ansi.c</FilePath>
-            </File>
-            <File>
-              <FileName>ansi_port.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\ansi_port.c</FilePath>
-            </File>
-            <File>
-              <FileName>nr_micro_shell.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\nr_micro_shell.c</FilePath>
-            </File>
-            <File>
-              <FileName>nr_micro_shell_commands.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\os\io\nr_micro_shell_commands.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2819,63 +2368,6 @@
               </Aads>
             </GroupArmAds>
           </GroupOption>
-          <Files>
-            <File>
-              <FileName>user_led_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_led_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_usart_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_usart_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_pwr_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_pwr_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_crc_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_crc_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_rcc_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_rcc_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_app_common.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\app\user_app_common.h</FilePath>
-            </File>
-            <File>
-              <FileName>user_flash_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_flash_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_fs_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_fs_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_io_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_io_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_shell_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\user_shell_control.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_cplus_control.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\app\user_cplus_control.cpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

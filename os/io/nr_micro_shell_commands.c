@@ -36,7 +36,6 @@
 #include "ctype.h"
 #include "ff.h"
 #include "xprintf.h"
-#include "FreeRTOSConfig.h"
 //显示当前目录
 #define PWD_LEN	20
 static TCHAR cur_dir[PWD_LEN]="/";
@@ -73,25 +72,6 @@ void shell_command_parse(char *cmd,char **argv,int *count){
 
 #endif
 
-void shell_mkfs_cmd(char argc,char *argv){
-	extern FATFS *fs;
-	//extern const int work_buff_len;
-	/*!!!!!!!!!!attetion!!!!!!!!!!*/
-	
-	
-	
-	
-	//这里的写法有很大的隐患。extern char work[512];的写法，到底是引用了其他模块的work，还是自己申请了一个work?\
-	不过就目前shell task只有128byte的栈来说，如果没有发生栈溢出，那就是引用了别的模块的work
-	extern char work[512];
-	FRESULT fr;
-	fr = f_mkfs("FLASH", 0, work, sizeof work);
-	if(fr == FR_OK){shell_printf("mk fs success\n");}
-	else {configASSERT(!fr);}
-	fr = f_mount(fs, "FLASH",1);
-	if(fr == FR_OK){shell_printf("mount fs success\n");}
-	else {configASSERT(!fr);}
-}
 
 void shell_mkdir_cmd(char argc,char *argv){
 	FRESULT fr;
