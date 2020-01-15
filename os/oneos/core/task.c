@@ -1,10 +1,10 @@
 #include "core/task.h"
 #include "core/list.h"
 #include "core/mem.h"
+#include "arch/arm-cortex-m3/arch.h"
 tasklist wait_task,block_task,extinct_task;
 TASKHANDLE cur_task;
 TASKHANDLE idle_task;
- void *OSSTACKPOINT;
 #define slot	1 //时间片
 #define TIMESLICE 1
 //append 不会创建listnode
@@ -126,8 +126,8 @@ TASKHANDLE task_create(uchar task_id,uchar priorty,uchar stack_size,void(*task_f
 err_t task_suspend(TASKHANDLE task){
    if(task==NULL)return err_failed;
    if(task==cur_task){
-     if(schedule()!=err_ok)return err_failed; 
-     return task_change(wait_task,block_task,task);
+     if(task_change(wait_task,block_task,task)!=err_ok)return err_failed; 
+		 arch_task_yield();
    }
    if(task_find(wait_task,task)==err_ok)
      return task_change(wait_task,block_task,task);
@@ -147,8 +147,8 @@ err_t task_resume(TASKHANDLE task){
 err_t task_delete(TASKHANDLE task){
    if(task==NULL)return err_failed;
    if(task==cur_task){
-     if(schedule()!=err_ok)return err_failed;
-     return task_change(wait_task,extinct_task,task);
+     if(task_change(wait_task,extinct_task,task)!=err_ok)return err_failed;
+		 arch_task_yield();
    }
    if(task_find(wait_task,task)==err_ok)
      return task_change(wait_task,extinct_task,task);

@@ -5,10 +5,9 @@
 //设置中断屏蔽和优先级
 //设置msp和psp
 //设置pendsv，产生调度信号
-__asm void arch_oneos_start(){
-	/* 配置 PendSV 和 SysTick 的中断优先级为最低 */
-//	portNVIC_SYSPRI2_REG |= portNVIC_PENDSV_PRI;
-//	portNVIC_SYSPRI2_REG |= portNVIC_SYSTICK_PRI;
+
+__asm void arch_start_task(){
+	
 	PRESERVE8
 	/*取向量表起始地址的内容*/
 	ldr r0,=0xE000ED08
@@ -25,6 +24,14 @@ __asm void arch_oneos_start(){
 	svc 0
 	nop
 	nop
+}
+#define portNVIC_SYSPRI2_REG				( * ( ( volatile unsigned int * ) 0xe000ed20 ) )
+void arch_oneos_start(){
+	/* 配置 PendSV 和 SysTick 的中断优先级为最低 */
+	portNVIC_SYSPRI2_REG |= 255;
+	portNVIC_SYSPRI2_REG |= 255;
+	//开始第一个任务，不再返回
+	arch_start_task();
 }
 //初始化task的堆栈
 void arch_initTask_stack(void *stack_p,void(*task_fun)(void)){
@@ -47,8 +54,17 @@ void arch_task_schedule(){
 }
 
 //当前任务放弃cpu，pending调度中断(即产生pendsv)
+#define portNVIC_INT_CTRL_REG		( * ( ( volatile unsigned int * ) 0xe000ed04 ) )
+#define portNVIC_PENDSVSET_BIT		( 1UL << 28UL )
+#define portSY_FULL_READ_WRITE		( 15 )
 void arch_task_yield(){
-	
+		/* Set a PendSV to request a context switch. */								\
+	portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;								\
+																				\
+	/* Barriers are normally not required but do ensure the code is completely	\
+	within the specified behaviour for the architecture. */						\
+	__dsb( portSY_FULL_READ_WRITE );											\
+	__isb( portSY_FULL_READ_WRITE );	
 }
 #define MAX_SYSCALL_INTERUPT_PRIORITY 0
 //负责上下文的切换
