@@ -1,11 +1,15 @@
 #include "arch/arm-cortex-m3/arch.h"
 #include "core/task.h"
-
+#include "stm32f10x.h"
 //设置systick
 //设置中断屏蔽和优先级
 //设置msp和psp
 //设置pendsv，产生调度信号
-
+#include "misc.h"
+void system_tick_config(){
+	SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK_Div8);
+	SysTick_Config(9000);//1ms
+}
 __asm void arch_start_task(){
 	
 	PRESERVE8
@@ -27,25 +31,27 @@ __asm void arch_start_task(){
 }
 #define portNVIC_SYSPRI2_REG				( * ( ( volatile unsigned int * ) 0xe000ed20 ) )
 void arch_oneos_start(){
+	system_tick_config();
 	/* 配置 PendSV 和 SysTick 的中断优先级为最低 */
 	portNVIC_SYSPRI2_REG |= 255;
 	portNVIC_SYSPRI2_REG |= 255;
 	//开始第一个任务，不再返回
 	arch_start_task();
 }
-//初始化task的堆栈
-void arch_initTask_stack(void *stack_p,void(*task_fun)(void)){
+
+extern void task_err_fun();
+//初始化task的堆栈,并且返回栈指针
+void* arch_initTask_stack(void *stack_p,void(*task_fun)(void)){
 	unsigned int * p = (unsigned int *)stack_p;
 	p--;
-	//*p=xpsr;
+	*p=0x01000000;
 	p--;
-	*p=(unsigned int)task_fun;
+	*p=(unsigned int)((unsigned int)task_fun&(unsigned int)(0xfffffffe));
 	p--;
-	p--;
+	*p=(unsigned int)task_err_fun;
 	p-=5;
 	p-=8;
-	stack_p=(void *)p;
-	return;
+	return (void *)p;
 }
 //负责挑选cur_task 调用上层的调度算法
 extern err_t schedule();

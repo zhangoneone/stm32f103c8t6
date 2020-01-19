@@ -53,9 +53,10 @@ typedef bool mutex_t; //ª•≥‚¡ø
 
 #define ban_schedule()						
 #define allow_schedule()					
-void arch_initTask_stack(void *stack_p,void(*task_fun)(void));
+void* arch_initTask_stack(void *stack_p,void(*task_fun)(void));
 void arch_oneos_start();
 void arch_task_yield();
+void system_tick_config();
 #ifdef __cplusplus
 }
 #endif

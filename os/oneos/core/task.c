@@ -114,10 +114,11 @@ TASKHANDLE task_create(uchar task_id,uchar priorty,uchar stack_size,void(*task_f
 	t->stack_size = (stack_size<=16?16:(stack_size>255?16:stack_size)); //range 16~255 out off set to 16
 	if(task_fun==NULL){t->task_fun=NULL;return NULL;}
 	t->task_fun=task_fun;
-	t->stack_addr=ONEMALLOC(stack_size);	//申请task栈ram
+	t->stack_addr=(void *)ONEMALLOC(stack_size);	//申请task栈ram，栈是向下生长的
 	if(t->stack_addr==NULL)return NULL;
-	t->stack_p=(void *)t->stack_addr;
-	arch_initTask_stack(t->stack_p,task_fun);
+	t->stack_p=(void *)((uint)t->stack_addr+stack_size-1);//获取栈顶地址
+	t->stack_p = (void *)(((uint)t->stack_p)&(~(uint)(0x0007)));//向下8字节对齐
+	t->stack_p = arch_initTask_stack(t->stack_p,task_fun);//初始化并更新栈指针
 	t->status=WAIT;
 	if(task_add(wait_task,t)!=err_ok)return NULL;
 	return t;
@@ -173,14 +174,18 @@ err_t task_clean(){
 void idle_fun(){
   for(;;){
   	task_clean();
+		task_suspend(idle_task);
   }
+}
+void task_err_fun(){
+	
 }
 err_t oneos_init(){
 	wait_task = list_create();
 	block_task = list_create();
 	extinct_task = list_create();
 	if(wait_task==NULL||block_task==NULL||extinct_task==NULL)return err_failed;
-	idle_task=task_create(0,0,32,idle_fun);
+	idle_task=task_create(0,0,254,idle_fun);
 	cur_task=idle_task;
 	return err_ok;	  
 }
