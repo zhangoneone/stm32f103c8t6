@@ -14,7 +14,6 @@
 #include "user_fs_control.h"
 #include "user_io_control.h"
 #include "user_shell_control.h"
-
 typedef enum{
 	SYS_INIT_OK = (0x01<<0),
 	FLASH_INIT_OK = (0x01<<1),
@@ -32,5 +31,9 @@ void xprintf_s(const char*	fmt,...);
 //以C++写的函数，不应该直接被C直接包含，只能以extern的方式，放到common头文件中。
 //C++函数列表
 extern void do_action();
-
+extern xTaskHandle Kernel_TASK_PCB;//Kernel线程句柄
+extern void kernel_test_start();
+typedef enum kernel_command{ 
+	top_command_value=(0x01<<0),
+}kernel_command;
 #endif

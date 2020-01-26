@@ -8,7 +8,6 @@
 #include "semphr.h"
 #include "event_groups.h"
 //user include
-#include "user_timer_control.h"
 #include "user_timer.h"
 #include "user_app_common.h"
 #include "user_led.h"

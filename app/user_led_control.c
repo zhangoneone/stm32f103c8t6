@@ -27,8 +27,5 @@ void close_led(){
 		vTaskSuspend(OPEN_LED_Task_TCB);//关灯后挂起开灯任务
 		vTaskDelay(500); /* 延时500 tick，这里是500ms */
 		vTaskResume(OPEN_LED_Task_TCB);//500ms后恢复开灯任务
-		vTaskDelay(500);
-		user_led_off();
-		vTaskDelay(500);
 	}
 }

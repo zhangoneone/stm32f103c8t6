@@ -1,5 +1,9 @@
 #ifndef USER_TIMER_H
 #define USER_TIMER_H
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include "stm32f10x_tim.h"
 /*@brief
 user_timer应该提供软件延时功能和PWM等功能，timer作为一个驱动的底层支持
 有关于时间的都应该在这里完成。
@@ -16,8 +20,16 @@ TIM6和TIM7基本定时器
 TIM2~TIM5通用定时器
 不是所有型号的stm32都支持以上的定时器的
 */
+void TIM1_Int_Init(u16 arr,u16 psc);
+void TIM2_Int_Init(u16 arr,u16 psc);
+void TIM3_Int_Init(u16 arr,u16 psc);
+void TIM4_Int_Init(u16 arr,u16 psc);
+void TIM5_Int_Init(u16 arr,u16 psc);
 typedef enum{
 	immediately=0,
+	postpone=1,
 }Update_option_t;
-
+#ifdef __cplusplus
+}
+#endif
 #endif

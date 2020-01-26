@@ -1,7 +1,4 @@
 #include "user_cplus_control.hpp"
-#include<vector>
-using namespace std;
-vector<int>v1;
 
 extern "C"{ void xprintf_s(const char*	fmt,...);}
 void f_test::fun1(int a){

@@ -37,6 +37,13 @@
 #include "ff.h"
 #include "xprintf.h"
 #include "FreeRTOSConfig.h"
+/* Scheduler includes. */
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+#include "event_groups.h"
+#include "user_app_common.h"
 //显示当前目录
 #define PWD_LEN	20
 static TCHAR cur_dir[PWD_LEN]="/";
@@ -407,7 +414,22 @@ void shell_run_cmd(char argc,char *argv){
 		shell_printf("run a script");
 	}
 }
-
+//top command
+extern xTaskHandle Kernel_TASK_PCB;
+void shell_top_cmd(char argc,char *argv){
+	if(argc > 1){
+		shell_printf("paragma too more...\r\n");
+	}
+	else{
+		//给kernel task发送一个通知
+		if(pdPASS==xTaskNotify(Kernel_TASK_PCB,top_command_value,eSetBits)){
+			shell_printf("kernel info:\r\n");
+		}
+		else{
+			shell_printf("call failed!\r\n");
+		}
+	}
+}
 /**
  * @brief command list
  */
@@ -426,6 +448,7 @@ const static_cmd_st static_cmd[] =
 	 {"reboot",shell_reboot_cmd},
 	 {"vi",shell_vi_cmd},
 	 {"run",shell_run_cmd},
+	 {"top",shell_top_cmd},
    {"\0",NULL}
 };
 

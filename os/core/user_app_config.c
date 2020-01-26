@@ -36,49 +36,49 @@ int software_init(){
 int freertos_app_add(){
 	xTaskCreate(	show_sys_clock,
 							"show_sys_clock_task",	
-							64,
+							32,
 							NULL,
 							3,
 							&RCC_SYS_CLOCK );
 	xTaskCreate(	open_led,
 							"open_led_task",	
-							64,
+							16,
 							NULL,
 							3,
 							&OPEN_LED_Task_TCB );
 	xTaskCreate(	close_led,
 							"close_led_task",	
-							128,
+							16,
 							NULL,
 							3,
 							&CLOSE_LED_Task_TCB );
 	xTaskCreate(	usart_heart_beat,
 							"usart_heart_beat_task",	
-							64,
+							32,
 							NULL,
 							3,
 							&USART_HEART_BEAT );					
 	xTaskCreate(	pwr_mode_switch,
 							"pwr_mode_switch_task",	
-							64,
+							32,
 							NULL,
 							3,
 							&PWR_MODE_SWITCH );
 	xTaskCreate(	pwr_mode_send_msg,
 							"pwr_mode_send_msg_task",	
-							64,
+							32,
 							NULL,
 							3,
 							&PWR_MODE_SEND_MSG );
 	xTaskCreate(	crc_cal,
 							"crc_cal_task",	
-							64,
+							32,
 							NULL,
 							3,
 							&CRC_CAL );
   xTaskCreate(	crc_post_binary_sem,
 							"crc_post_binary_sem_task",	
-							64,
+							32,
 							NULL,
 							3,
 							&CRC_POST_BINARY_SEM );
@@ -106,5 +106,11 @@ int freertos_app_add(){
 							NULL,
 							2,
 							&Shell_Test_Task_TCB );
+	xTaskCreate(kernel_test_start,
+							"kernel_test_start_task",	
+							128,
+							NULL,
+							2,
+							&Kernel_TASK_PCB );
 	return 0;
 }

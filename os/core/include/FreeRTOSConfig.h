@@ -46,8 +46,8 @@
 #define configCPU_CLOCK_HZ			( ( unsigned long ) 72000000 )	
 #define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
 #define configMAX_PRIORITIES		( 5 )
-#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 128 )
-#define configTOTAL_HEAP_SIZE		( ( size_t ) ( 17 * 1024 ) )
+#define configMINIMAL_STACK_SIZE	( ( unsigned short ) 32 )
+#define configTOTAL_HEAP_SIZE		( ( size_t ) ( 10 * 1024 ) )
 #define configMAX_TASK_NAME_LEN		( 16 )
 #define configUSE_TRACE_FACILITY	0
 #define configUSE_16_BIT_TICKS		0
@@ -127,7 +127,7 @@ void assert_failed( unsigned char* pcFile, unsigned long ulLine )
 #define configMAX_PRIORITIES (32)
 
 //空闲任务堆栈大小
-#define configMINIMAL_STACK_SIZE ((unsigned short)128)
+#define configMINIMAL_STACK_SIZE ((unsigned short)32)
 	
 //任务名称字符串长度最大值
 #define configMAX_TASK_NAME_LE (16)
@@ -165,7 +165,7 @@ void assert_failed( unsigned char* pcFile, unsigned long ulLine )
 #define configSUPPORT_STATIC_ALLOCATION 0
 
 //系统所有总的堆大小 注意编译之后不能让变量占用内存超过芯片sram大小
-#define configTOTAL_HEAP_SIZE ((size_t)(10*1024))
+#define configTOTAL_HEAP_SIZE ((size_t)(13*1024))
 
 //钩子函数设置 回调函数 
 //空闲钩子函数 void vApplicationIdleHook(void ) 每个空闲任务执行期都会调用
@@ -182,10 +182,12 @@ void assert_failed( unsigned char* pcFile, unsigned long ulLine )
 
 //任务状态和运行状态收集
 //运行时间统计
-#define configGENERATE_RUN_TIME_STATS 0
-
+#define configGENERATE_RUN_TIME_STATS 1
+extern volatile uint32_t CPU_RunTime; 
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS() (CPU_RunTime = 0ul) 
+#define portGET_RUN_TIME_COUNTER_VALUE() CPU_RunTime
 //可视化追踪调试
-#define configUSE_TRACE_FACILITY 0
+#define configUSE_TRACE_FACILITY 1
 /* 与宏 configUSE_TRACE_FACILITY 同时为1时会编译如下3个函数
 prvWriteNameToBuffer()
 vTaskList(),
@@ -247,7 +249,7 @@ vTaskGetRunTimeStats()
 
 /*Percepio Tracealyzer  configUSE_TRACE_FACILITY 为1时需要的*/
 #if ( configUSE_TRACE_FACILITY == 1 )
-#include "trcRecorder.h"
+//#include "trcRecorder.h"
 #define INCLUDE_xTaskGetCurrentTaskHandle 0
 #endif
 #endif /* FREERTOS_CONFIG_H */
