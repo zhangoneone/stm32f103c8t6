@@ -183,7 +183,7 @@ __asm uint32_t Get_Control( void )
 	mrs r0, control
 	bx r14
 }
-static SemaphoreHandle_t secure_print_sem = NULL;//´®¿Ú¿ÕÏĞ»¥³âÁ¿
+static SemaphoreHandle_t secure_print_sem = NULL;//ä¸²å£ç©ºé—²äº’æ–¥é‡
 void xprintf_s(
 	const char*	fmt,	/* Pointer to the format string */
 	...					/* Optional arguments */
@@ -194,13 +194,13 @@ void xprintf_s(
 	if(Get_Control()&0x02)isPsp=1;
 	else isPsp=0;
 	if(NULL == secure_print_sem){
-		secure_print_sem = (SemaphoreHandle_t)0x1;//µÚÒ»Ê±¼äÈÃ±äÁ¿·ÇNULL£¬ÒÔÃâ¶à¸ötask½øÈë
-		//´®¿Ú×ÊÔ´»¥³âÁ¿³õÊ¼»¯
-		secure_print_sem = xSemaphoreCreateBinary();
+		secure_print_sem = (SemaphoreHandle_t)0x1;//ç¬¬ä¸€æ—¶é—´è®©å˜é‡éNULLï¼Œä»¥å…å¤šä¸ªtaskè¿›å…¥
+		//ä¸²å£èµ„æºäº’æ–¥é‡åˆå§‹åŒ–
+		secure_print_sem = xSemaphoreCreateMutex();
 		if(isPsp)xSemaphoreGive(secure_print_sem);
 		else xSemaphoreGiveFromISR(secure_print_sem,NULL);
 	}
-	//wait Ñ­»·µÈ´ı£¬Ã¿´ÎµÈ²»µ½ÔòtaskĞİÃß1tick¡£
+	//wait å¾ªç¯ç­‰å¾…ï¼Œæ¯æ¬¡ç­‰ä¸åˆ°åˆ™taskä¼‘çœ 1tickã€‚
 	if(isPsp)
 		while(xSemaphoreTake(secure_print_sem,1) != pdTRUE );
 	else
@@ -336,7 +336,7 @@ int xgets (		/* 0:End of stream, 1:A line arrived */
 		c = xfunc_in();				/* Get a char from the incoming stream */
 		if (!c) return 0;			/* End of stream? */
 		if (c == '\r') break;		/* End of line? */
-		if ((c == '\b'||c == 0x7f) && i) {		/* Back space? µçÄÔÊäÈëµÄbackspace¼üÖµÊÇ0x7f*/
+		if ((c == '\b'||c == 0x7f) && i) {		/* Back space? ç”µè„‘è¾“å…¥çš„backspaceé”®å€¼æ˜¯0x7f*/
 			i--;
 #if _LINE_ECHO
 			xputc(c);
